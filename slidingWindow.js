@@ -1,4 +1,4 @@
-// Find X-Sum of All K-Long Subarrays I
+// 3318. Find X-Sum of All K-Long Subarrays I
 // You are given an array nums of n integers and two integers k and x.
 
 // The x-sum of an array is calculated by the following procedure:
@@ -136,7 +136,7 @@ numOfSubarraysOpt([2,2,2,2,5,5,5,8],3,4);
 numOfSubarraysOpt([11,13,17,23,29,31,7,5,2,3],3,5);
 numOfSubarraysOpt([1,1,1,1,1],1,0);
 
-// find out subarray with given sun if is there return true or false
+// find out subarray with given sum if is there return true or false
 
 function subArrayWithGivenSum(arr,result){
     for(let i=0;i<arr.length;i++){
@@ -615,7 +615,7 @@ subarraysWithKDistinctOpt([1,2,1,2,3],2);
 subarraysWithKDistinctOpt([1,2,1,3,4],3);
 
 // it required quene also so this is on hold.
-// 239. Sliding Window Maximum
+// 239. Sliding Window Max  imum
 // You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
 // Return the max sliding window.
 
@@ -728,3 +728,49 @@ function longestOnes(arr,k){
 }
 longestOnes([1,1,1,0,0,0,1,1,1,1,0],2);
 longestOnes([0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1],3);
+
+
+// Given a string s and an integer k, count the number of substrings of s that contain at most k distinct characters.
+// A substring is a contiguous part of the string.
+// Distinct characters mean unique characters.
+// You're not returning the substrings — you're counting how many exist.
+// input 'abcba',k=2 
+// output= 10
+function countSubstringsWithAtMostKDistinct(str,k){
+    let count=0;
+    for(let i=0;i<str.length;i++){
+        let set=new Set();
+        for(let j=i;j<str.length;j++){
+            if(!set.has(str[j]))set.add(str[j]);
+            if(set.size > k)break;
+            count++;
+        }
+    }
+    console.log('count Substrings With At Most K Distinct',count);
+    return count;
+}
+countSubstringsWithAtMostKDistinct('abcba',2);
+countSubstringsWithAtMostKDistinct('abc',2);
+countSubstringsWithAtMostKDistinct('aaaa',1);
+countSubstringsWithAtMostKDistinct('aabac',2);
+
+function countSubstringsWithAtMostKDistinctOpt(arr,k){
+    let start=0;
+    let count=0;
+    let map=new Map();
+    for(let end=0;end<arr.length;end++){
+        map.set(arr[end],(map.get(arr[end])||0)+1);
+        while(map.size > k){
+            map.set(arr[start],map.get(arr[start])-1);
+            if(map.get(arr[start])==0)map.delete(arr[start]);
+            start++;
+        }
+        count+=end-start+1;
+    }
+    console.log(count);
+    return count;
+}
+countSubstringsWithAtMostKDistinctOpt('abcba',2);
+countSubstringsWithAtMostKDistinctOpt('abc',2);
+countSubstringsWithAtMostKDistinctOpt('aaaa',1);
+countSubstringsWithAtMostKDistinctOpt('aabac',2);
