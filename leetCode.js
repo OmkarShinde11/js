@@ -1653,15 +1653,11 @@ class NumArray{
     }
 
     sumRange(left,right){
+        console.log('range sum',this.prefixSum[right + 1] - this.prefixSum[left])
         return this.prefixSum[right + 1] - this.prefixSum[left];
     }
 
 }
-// let numarray=new NumArray([-2, 0, 3, -5, 2, -1]);
-// let sum=numarray.sumRange([0,2]);
-// let sum1=numarray.sumRange([2,5]);
-// let sum2=numarray.sumRange([0,5]);
-
 
 const numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
 console.log(numArray.sumRange(0, 2)); 
@@ -2962,3 +2958,30 @@ function findKDistantIndices(arr,key,k){
 }
 findKDistantIndices([3,4,9,1,3,9,5],9,1);
 findKDistantIndices([2,2,2,2,2],2,2);
+
+//1353. Maximum Number of Events That Can Be Attended
+// you have given 2 d array of events and arr.length==events and [2,4]==startday and endday  so you have to find maximum events attend count
+function maxEvents(arr){
+    let count=0;
+    arr=arr.sort((a,b)=>{
+        return a[1]-b[1];
+    });
+    console.log(arr);
+    let set=new Set();
+    for(let [start,end] of arr){
+        for(let j=start;j<=end;j++){
+            if(!set.has(j)){
+                set.add(j);
+                count++;
+                break;
+            }
+        }
+    };
+    console.log(count);
+    return count;
+}
+maxEvents([[1,2],[2,3],[3,4]]);
+maxEvents([[1,2],[2,3],[3,4],[1,2]]);
+maxEvents([[1,4],[4,4],[2,2],[3,4],[1,1]]);
+maxEvents([[1,2],[1,2],[3,3],[1,5],[1,5]]);
+maxEvents([[52,79],[7,34]]);

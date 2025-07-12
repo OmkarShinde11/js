@@ -955,96 +955,13 @@ maxSubsequence([50,-75],2);
 maxSubsequence([-8,-94,-30,-98,-27,62,26],7)
 maxSubsequence([63,-74,61,-17,-55,-59,-10,2,-60,-65],9);
 
-// Subarray Sum Equals K
-// Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k. A subarray is a contiguous non-empty sequence of elements within an array.
-
-function subArraySumEqualK(arr,result){
-    let count=0;
-    for(let i=0;i<arr.length;i++){
-        let sum=0;
-        for(let j=i;j<arr.length;j++){
-            sum+=arr[j];
-            if(sum==result)count++;
-        }
-    };
-    console.log('sub array of sum equal to k',count);
-    return count;
-}
-subArraySumEqualK([1,1,1],2);
-subArraySumEqualK([1,2,3],3);
-
-// prefixSum + map approch
-function subArraySumEqualKOpt(arr,result){
-    let map=new Map();
-    map.set(0,1);
-    let prefixSum=0;
-    let count=0;
-    for(let i=0;i<arr.length;i++){
-        prefixSum+=arr[i];
-        if(map.has(prefixSum-result)) count+=map.get(prefixSum-result);
-        map.set(prefixSum,(map.get(prefixSum)||0)+1);
-    };
-    console.log('sub array of sum equal to k opt',count);
-    return count;
-}
-
-subArraySumEqualKOpt([1,1,1],2);
-subArraySumEqualKOpt([1,2,3],3);
-subArraySumEqualKOpt([1],0);
-subArraySumEqualKOpt([1,-1,0],0);
-
-// prfix sum +map approch
-function numSubarraysWithSum(arr,t){
-    // let count=0;
-    // for(let i=0;i<arr.length;i++){
-    //     let sum=0;
-    //     for(let j=i;j<arr.length;j++){
-    //         sum+=arr[j];
-    //         if(sum==t)count++;
-    //         if(sum > t)break;
-    //     }
-    // }
-    // console.log(count);
-    // return count;
-
-    let map=new Map();
-    map.set(0,1);
-    let prefixSum=0;
-    let count=0;
-    for(let i=0;i<arr.length;i++){
-        prefixSum+=arr[i];
-        if(map.has(prefixSum-t)) count+=map.get(prefixSum-t);
-        map.set(prefixSum,(map.get(prefixSum)||0)+1);
-    };
-    console.log('sub array of sum equal to k opt',count);
-    return count;
-}
-numSubarraysWithSum([1,0,1,0,1],2);
-numSubarraysWithSum([0,0,0,0,0],0)
-
-function getSumOfRangeIndex(arr,start,end){
-    let sum=0;
-    for(let i=start;i<=end;i++){
-        sum+=arr[i];
-    }
-    console.log('sum of range index',sum);
-    return sum;
-}
-getSumOfRangeIndex([2,8,3,9,6,5,4],1,3);
 
 
-// prefixSum approch.
-function getSumOfRangeIndexOpt(arr,start,end){
-    let prefixArr=[arr[0]];
-    let sum=arr[0];
-    for(let i=1;i<arr.length;i++){
-        sum+=arr[i];
-        prefixArr.push(sum);
-    };
-    if(start==0){
-        console.log('sum of range index opt',prefixArr[end]);
-    }else{
-        console.log('sum of range index opt',prefixArr[end]-prefixArr[start-1]);
-    }
-}
-getSumOfRangeIndexOpt([2,8,3,9,6,5,4],1,3);
+// kadanes alogorithm based question
+// Problem	Description	LeetCode Link
+// 53. Maximum Subarray	The most classic Kadane’s problem	🔗 LeetCode 53
+// 918. Maximum Sum Circular Subarray	Kadane's + Circular Array	🔗 LeetCode 918
+// 152. Maximum Product Subarray	Modified Kadane's for product	🔗 LeetCode 152
+// 1567. Maximum Length of Subarray With Positive Product	Greedy/Kadane variant	🔗 LeetCode 1567
+// 487. Max Consecutive Ones II	Max consecutive 1s (can flip one 0)	🔗 LeetCode 487
+// 1749. Maximum Absolute Sum of Any Subarray	Use both max and min subarray sums	🔗 LeetCode 1749

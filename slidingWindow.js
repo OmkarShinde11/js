@@ -558,8 +558,8 @@ function numberOfSubarraysOpt(arr, k) {
     console.log(atMostK(arr, k) - atMostK(arr, k - 1));
 }
 numberOfSubarraysOpt([1,1,2,1,1],3);
-numberOfSubarrays([2,4,6],1);
-numberOfSubarrays([2,2,2,1,2,2,1,2,2,2],2);
+numberOfSubarraysOpt([2,4,6],1);
+numberOfSubarraysOpt([2,2,2,1,2,2,1,2,2,2],2);
 
 
 // 992. Subarrays with K Different Integers
@@ -615,7 +615,7 @@ subarraysWithKDistinctOpt([1,2,1,2,3],2);
 subarraysWithKDistinctOpt([1,2,1,3,4],3);
 
 // it required quene also so this is on hold.
-// 239. Sliding Window Max  imum
+// 239. Sliding Window Maximum
 // You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
 // Return the max sliding window.
 
@@ -774,3 +774,105 @@ countSubstringsWithAtMostKDistinctOpt('abcba',2);
 countSubstringsWithAtMostKDistinctOpt('abc',2);
 countSubstringsWithAtMostKDistinctOpt('aaaa',1);
 countSubstringsWithAtMostKDistinctOpt('aabac',2);
+
+
+// sliding window leetcode question
+// Easy
+
+// Maximum Sum Subarray of Size K
+// LeetCode 643
+
+// Find All Anagrams in a String
+// LeetCode 438
+
+// Longest Substring Without Repeating Characters
+// LeetCode 3
+
+// Minimum Size Subarray Sum
+// LeetCode 209
+
+// Binary Subarrays With Sum
+// LeetCode 930
+
+// 🔸 Medium
+
+// Longest Substring with At Most K Distinct Characters
+// LeetCode 340
+
+// Fruit Into Baskets (Longest Subarray with at most 2 distinct elements)
+// LeetCode 904
+
+// Permutation in String
+// LeetCode 567
+
+// Count Number of Nice Subarrays
+// LeetCode 1248
+
+// Subarrays with K Different Integers
+// LeetCode 992
+
+// 🔺 Hard
+
+// Sliding Window Maximum
+// LeetCode 239
+
+// Minimum Window Substring
+// LeetCode 76
+
+// Longest Subarray of 1's After Deleting One Element
+// LeetCode 1493
+
+// Max Consecutive Ones III
+// LeetCode 1004
+
+// Count Substrings with At Most K Distinct Characters (Not direct on LeetCode, but useful)
+
+
+
+// longest subarray with sum <=k;
+// when it ask for return that maxlength subarray;
+function longestSubarraySumArray(arr,k){
+    let start=0;
+    // let length=0;
+    let maxLength=0;
+    let oldLength=0;
+    let maxStart;
+    let maxEnd;
+    let sum=0;
+    let end=0
+    for(let i=end;i<arr.length;i++){
+        sum+=arr[i];
+        while(sum > k){
+            sum-=arr[start];
+            start++;
+        }
+        maxLength=Math.max(maxLength,i-start+1);
+        if(oldLength!==maxLength){
+            oldLength=maxLength;
+            maxStart=start;
+            maxEnd=i
+        }
+    };
+    console.log(arr.slice(maxStart,maxEnd+1));
+    return arr.slice(maxStart,maxEnd+1);
+}
+longestSubarraySumArray([2,5,1,7,10],14);
+
+// when it ask for maxsuarray length;
+function longestSubarraySumLength(arr,k){
+    let start=0;
+    let maxLength=0;
+    let sum=0;
+    let end=0
+    for(let i=end;i<arr.length;i++){
+        sum+=arr[i];
+        while(sum > k){
+            sum-=arr[start];
+            start++;
+        }
+        maxLength=Math.max(maxLength,i-start+1);
+    };
+    console.log(maxLength);
+    return maxLength;
+}
+longestSubarraySumLength([2,5,1,7,10],14)
