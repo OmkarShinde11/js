@@ -1,3 +1,5 @@
+let arr=[1,2,5,6];console.log( typeof arr); //output:object
+console.log(typeof null) // output object.
 // find largest number in array
 function largest(arr){
     let max=0;
@@ -41,7 +43,7 @@ function reverseArrcall(arr){
         low++;
         high--;
     };
-    return arr;
+       return arr;
 }
 console.log(reverseArrcall(reverseArr));
 console.log(reverseArrcall([30,7,6,5,10]));
@@ -206,7 +208,7 @@ function leaderArrayEle(arr){
         if(check)leaderArr.push(arr[i]);
         check=true
     };  
-    console.log(leaderArr);
+    console.log('leaderArr',leaderArr);
     return leaderArr;
 }
 leaderArrayEle([7,10,4,3,10,6,5,2]);
@@ -781,6 +783,21 @@ maxProductSubArray([-2]);
 maxProductSubArray([-2,3,-4]);
 maxProductSubArray([0,1,-2,-3,-4]);
 
+function maxProductSubArrayBru(arr){
+    let product=1;
+    let maxProd=-Infinity;
+    for(let i=0;i<arr.length;i++){
+        for(let j=i;j<arr.length;j++){
+            product *=arr[j];
+            maxProd=Math.max(maxProd,product);
+        };
+        product=1;
+    };
+    console.log('maxPrdBru',maxProd);
+    return maxProd;
+}
+maxProductSubArrayBru([2,3,-2,4]);
+
 function maxPositiveProductSubarray(arr){
     let product=1;
     let maxLength=0;
@@ -945,7 +962,7 @@ function maxSubsequence(arr,k){
     let topK=paired.slice(0,k);
     topK.sort((a,b)=>a.index-b.index);
     let result= topK.map((el)=>el.val);
-    console.log(result);
+    console.log('result',result);
     return result;
 }
 maxSubsequence([-1,-2,3,4],3);
@@ -965,3 +982,310 @@ maxSubsequence([63,-74,61,-17,-55,-59,-10,2,-60,-65],9);
 // 1567. Maximum Length of Subarray With Positive Product	Greedy/Kadane variant	🔗 LeetCode 1567
 // 487. Max Consecutive Ones II	Max consecutive 1s (can flip one 0)	🔗 LeetCode 487
 // 1749. Maximum Absolute Sum of Any Subarray	Use both max and min subarray sums	🔗 LeetCode 1749
+
+
+let group=[
+    {name:'Omkar',age:23},
+    {name:'Sid',age:28},
+    {name:'Rahul',age:32},
+    {name:'Krunhal',age:28},
+    {name:'Sahil',age:32}
+];
+
+// group by implementation
+function groupBy(arr,key){
+    let obj={};
+    arr.forEach((el)=>{
+        if(obj[el[key]]){
+            obj[el[key]].push(el)
+        }
+        else{
+            obj[el[key]]=[el];
+        }
+    });
+    console.log(obj);
+};
+groupBy(group,'age');
+
+// group by reduce.
+function groupByReduce(arr,key){
+    let result=arr.reduce((acc,curr)=>{
+        if(acc[curr[key]]){
+            acc[curr[key]].push(curr);
+        }else{
+            acc[curr[key]]=[curr];
+        };
+        return acc;
+    },{});
+    console.log(result);
+};
+groupByReduce(group,'age');
+
+function previousGreater(arr){
+    let result=[];
+    for(let i=0;i<arr.length;i++){
+        let found=-1;
+        for(let j=i-1;j>=0;j--){
+            if(arr[j] > arr[i]){
+                found=arr[j];
+                break;
+            }
+        }
+        result.push(found);
+    };
+    console.log(result);
+    return result;
+};
+previousGreater([100,80,60,70,75,85]);
+
+// 496. Next Greater Element I
+function nextGreaterElement(arr1,arr2){
+    let result=[];
+    for(let i=0;i<arr1.length;i++){
+        let found=false;
+        let check=false;
+        for(let j=0;j<arr2.length;j++){
+            if(arr2[j]==arr1[i]) found=true;
+            if(found && arr1[i] < arr2[j]){
+                result.push(arr2[j]);
+                check=true;
+                break;
+            }
+        }
+        if(!check) result.push(-1);
+    }
+    console.log(result);
+    return result;
+}
+
+nextGreaterElement([4,1,2],[1,3,4,2]);
+nextGreaterElement([2,4],[1,2,3,4]);
+
+// 503. Next Greater Element II
+function nextGreaterElement2(arr){
+   let result=[];
+   for(let i=0;i<arr.length;i++){
+    let check=false;
+    for(let j=1;j<arr.length;j++){
+        let index=(i+j) % arr.length; /// helps to travel circular array
+        if(arr[index] >arr[i]){
+            result.push(arr[index]);
+            check=true
+            break;
+        }
+    }
+    if(!check)result.push(-1);
+   }
+   console.log(result);
+   return result
+}
+
+nextGreaterElement2([1,2,3,4,3])
+nextGreaterElement2([1,2,1]);
+nextGreaterElement2([5,4,3,2,1]);
+
+function findWater(arr){
+    let maxArea=-Infinity;
+    for(let i=0;i<arr.length;i++){
+        for(let j=i+1;j<arr.length;j++){
+            // if(i<j){
+                const height=Math.min(arr[i],arr[j]);
+                const width=j-i;
+                maxArea=Math.max(maxArea,width * height);
+            // }
+        }
+    };
+    console.log(maxArea);
+    return maxArea;
+};
+findWater([1,8,6,2,5,4,8,3,7]);
+
+// TWO Pointer
+function findWaterOpt(arr){
+    let left=0;
+    let right=arr.length-1;
+    let maxArea=-Infinity;
+    for(let i=left;i<arr.length;i++){
+        const height=Math.min(arr[left],arr[right]);
+        const width=right-left;
+        maxArea=Math.max(maxArea,width * height);
+        if(arr[left] < arr[right]) left++;
+        else{
+            right--
+        }
+    }
+    console.log('maxAreaOpt',maxArea);
+    return maxArea;
+}
+findWaterOpt([1,8,6,2,5,4,8,3,7]);
+findWaterOpt([1,1]);
+findWaterOpt([8,7,2,1]);
+
+
+// function findlastWeight(arr){
+//     while(arr.length!==1){
+//         arr=find(arr);
+//     };
+//     if(arr.length==1){
+//         console.log(arr[0]);
+//         return arr[0]
+//     }
+//     return 0;
+// };
+
+// function find(arr){
+//     let firstHighest=-Infinity;
+//     let secondHighest=-Infinity;
+//     let firstHighestIndex;
+//     let secondHighestIndex;
+//     for(let i=0;i<arr.length;i++){
+//         if(arr[i] > firstHighest){
+//             secondHighest=firstHighest;
+//             secondHighestIndex=firstHighestIndex;
+//             firstHighest=arr[i];
+//             firstHighestIndex=i;
+//         };
+//         if(arr[i] < firstHighest && arr[i]>secondHighest){
+//             secondHighest=arr[i];
+//             secondHighestIndex=i;
+//         }
+//     };
+//     let diff=arr[firstHighestIndex]-arr[secondHighestIndex];
+//     if(isNaN(diff))return arr=[arr[0]];
+//     arr.splice(arr.indexOf(firstHighest),1);
+//     arr.splice(arr.indexOf(secondHighest),1);
+//     arr.push(diff);
+//     arr=arr.sort((a,b)=>b-a);
+//     // console.log(arr);
+//     if(arr.length==1)return arr;
+//     return arr;
+// }
+
+
+// findlastWeight([2,7,4,1,8,1]);
+// findlastWeight([1]);
+// findlastWeight([1,3]);
+// findlastWeight([3,1]);
+// findlastWeight([2,2]);
+
+
+// Find unique in space complexcity o(1);
+function findUnique(arr){
+    let result=0;
+    arr.forEach((el)=>{
+        result^=el;
+    });
+    console.log(result);
+}
+findUnique([1,2,1,5,5]);
+
+
+function maximumEnergy(arr,k){
+    let max=-Infinity;
+    for(let i=0;i<arr.length;i++){
+        let sum=arr[i];
+        for(let j=i+k;j<arr.length;j+=k){
+            sum+=arr[j];
+        }
+        max=Math.max(max,sum);
+    }
+    console.log('max',max);
+    return max
+};
+
+maximumEnergy([5,2,-10,-5,1],3);
+maximumEnergy([-2,-3,-1],2);
+maximumEnergy([5,-10,4,3,5,-9,9,-7],2);
+maximumEnergy([-8,10,-10],1);
+
+// 3349. Adjacent Increasing Subarrays Detection I
+var hasIncreasingSubarrays = function(arr,k) {
+    let n = arr.length;
+    let starts = []; // Store valid start indices of increasing subarrays
+    let result=false;
+    for (let i = 0; i <= n - k; i++) {
+        let isIncreasing = true;
+        
+        // Check if arr[i..i+k-1] is strictly increasing
+        let stop=i+(k-1);
+        for (let j = i; j <stop; j++) {
+            if (arr[j] >= arr[j + 1]) {
+                isIncreasing = false;
+                break;
+            }
+        }
+
+        if (isIncreasing) {
+            starts.push(i); // Store start index of the valid subarray
+        }
+    }
+
+    // Check if we have two adjacent valid subarrays
+    for (let i = 0; i < starts.length; i++) {
+        for(let j=i+1;j<starts.length;j++){
+            if (starts[j] === starts[i] + k) {
+                result=true
+                console.log('result',result);
+                return result; // Found adjacent increasing subarrays
+            }
+        }
+    }
+    console.log('result',result);
+    return result;
+};
+hasIncreasingSubarrays([2,5,7,8,9,2,3,4,3,1],3)
+hasIncreasingSubarrays([-15,-13,4,7],2);
+hasIncreasingSubarrays([-15,19],1);
+hasIncreasingSubarrays([-3,-19,-8,-16],2);
+
+// 2273. Find Resultant Array After Removing Anagrams
+function removeAnagrams(arr){
+    for(let i=0;i<arr.length;i++){
+        if(arr[i+1]==undefined)break;
+        if(areAnagrams(arr[i],arr[i+1])){
+            arr.splice(i+1,1);
+            i--;
+        }else{
+            continue;
+        }
+    };
+    console.log(arr);
+    return arr;
+}
+
+function areAnagrams(str1,str2){
+    let map=new Map();
+    for(let ch of str1){
+        map.set(ch,(map.get(ch) || 0)+1);
+    }
+    for(let ch of str2){
+        // if(!map.has(ch))
+        if(map.has(ch)) map.set(ch,map.get(ch)-1);
+        else{
+            map.set(ch,1);
+        }
+        if(map.get(ch)==0) map.delete(ch);
+    };
+    return map.size===0;
+}
+
+removeAnagrams(["abba","baba","bbaa","cd","cd"]);
+removeAnagrams(["a","b","c","d","e"]);
+removeAnagrams(["a","az"]);
+
+// 2011. Final Value of Variable After Performing Operations
+function finalValueAfterOperations(arr){
+    let x=0;
+    for(let i=0;i<arr.length;i++){
+        if(arr[i]==='--X' || arr[i]==='X--') x--;
+        else{
+            x++;
+        }
+    };
+    console.log(x);
+    return x;
+}
+
+finalValueAfterOperations(["--X","X++","X++"]);
+finalValueAfterOperations(["++X","++X","X++"]);
+finalValueAfterOperations(["X++","++X","--X","X--"]);

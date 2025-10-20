@@ -20,3 +20,14 @@ function b(){
 }
 
 //here we get output in function  if we just print a fn then whole body print and and on fn call whatever return or console it print. In variable case in memory execution we store a undefined.so in that scenario if we try to access before the inoitialization we get a undefined.
+
+
+
+// difference between not defined and undefined.
+// undefined:A special value in JavaScript.
+// Means: “a variable exists, but it has no value assigned yet.”
+// Type: "undefined".
+
+// not defined:
+// Means the variable has never been declared in the current scope.
+// Accessing it throws a ReferenceError.

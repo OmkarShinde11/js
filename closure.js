@@ -80,8 +80,18 @@ var z=x()(); //output:80
 //     }
 // }
 
-// count()(); // here function increment form a closure with count so here count is also not change without calling count function.
+// count()(); // here function increment forms a closure with count so here count is also not change without calling count function.
 
+// so here eg1 counter is different
+var eg1=count();
+eg1();
+eg1();
+
+// so here eg2 counter is different
+
+var eg2=count();
+eg2();
+eg2();
 // alterntive way for above one is constructor function.
 
 function Counter(){

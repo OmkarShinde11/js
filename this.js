@@ -6,13 +6,14 @@ console.log(this);  // it reffers to a window object  //Window object can be a d
 
 // In Function Scope
 function x(){
-    console.log(this);  // so here in function scope this object reffers again window but in strict mode it is undefined.
+    console.log(this);  // so here in function scope this object reffers again window in non strict mode.
 }
-// so in function scope if the value of this keyword is undefined or null so in that case this will be replace by the window object. and this happens in non strict mode only.
+
+
 
 // So in strict mode this keyword value depend on how function is called.
 x();  // if it is called in this way then value is undefind or null.
-window.x() // i/f its call in this way then value is Window.
+// window.x() // if its call in this way then value is Window.
 
 
 // In Object 
@@ -45,6 +46,7 @@ obj3.x();
 // here this is reffer to winow or global object because arrow function don't have thier this keyword so it retains it's enclosing context so here enclosing context is obj and obj is present in gloabl so it reffer to global
 
 // this keyword inside nested arrow function.
+var name='Sanket';
 let obj_4={
     name:'Sid',
     x:function(){
@@ -55,6 +57,8 @@ let obj_4={
     }
 }
 console.log(obj_4.x());
+
+//  so here this keyword reffer to obj4 because here arrow function exclosing context is function so function have this keyword reffer to an obj4.
 
 // another e.g.
 var name='Random_01';  
@@ -68,7 +72,7 @@ let obj4={
     }
 }
 obj4.x();
-//  so here this keyword reffer to obj4 because here arrow function exclosing context is function so function have this keyword reffer to an obj4.
+
 
 // this keyword in Dom
 // in Dom this keyword reffer to HTMLElement.

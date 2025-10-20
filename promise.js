@@ -41,18 +41,23 @@
                                     // Callback Hell
 // Using Callback
 
-// function orderApi1(callback,callback2){
-//     console.log('Order Create Successfully.');
-//     callback(callback2);
+// function order(){
+//     console.log('Your Shoe order is Confirmed.pls proceed for payment');
+//     function ProcessPayment(){
+//         console.log('Payment Successfully done. See the orderHistory');
+//         function ShownHistory(){
+//             console.log('OrderHistory Shown,Check Wallet');
+//             function CheckUpdateWallet(){
+//                 console.log('Wallet Updated');
+//                 return;
+//             }
+//             CheckUpdateWallet();
+//         }
+//         ShownHistory();
+//     }
+//     ProcessPayment();
 // }
-// function paymentProcess1(callback2){
-//     console.log('Payement Done');
-//     callback2();
-// }
-// function orderHistory(){
-//     return 'Order history shown'
-// }
-// orderApi1(paymentProcess1,orderHistory);
+// order();
 
 // Using Promise
 
@@ -86,6 +91,7 @@ function orderhistoryPromise(){
     })
 }
 
+// when there is an chain of promise then in each chain return should be there.
 orderApiPromise().then(()=>{
     return paymentProcessPromise();
 }).then(()=>{

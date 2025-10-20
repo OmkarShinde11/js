@@ -111,57 +111,104 @@
 // so in that case microtask is full so whatever code which in in callback quene is not run so this scenari is called starvation.
 
 
-async function async1() {
-  console.log("async1 start");
-  const data=await async2();
-  console.log(data);
-  console.log("async1 end");// microtask.
-}
+// async function async1() {
+//   console.log("async1 start");
+//   const data=await async2();
+//   console.log(data);
+//   console.log("async1 end");// microtask.
+// }
 
-async function async2() {
-  return new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-      resolve('async2');
-    },5000);
-  })
-}
+// async function async2() {
+//   return new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//       resolve('async2');
+//     },5000);
+//   })
+// }
+
+// // async function async2(){
+// //   return 'Name';
+// // }
+
+// console.log("script start");
+
+// setTimeout(function () {
+//   console.log("setTimeout");  // callback
+// }, 0);
+
+// async1(); // fn call
+
+// new Promise(function (resolve) {
+//   console.log("promise1");
+//   resolve();
+// }).then(function () { // microtask
+//   console.log("promise2");
+// });
+
+// console.log("script end");
+// Output:
+// script start
+// async1 start
+// promise1
+// script end
+// promise2
+// setTimeout
+// async2
+// async1 end
+
+
+// async function async1() {
+//   console.log("async1 start");
+//   const data=await async2();
+//   console.log(data);
+//   console.log("async1 end");// microtask.
+// }
 
 // async function async2(){
 //   return 'Name';
 // }
 
-console.log("script start");
+// console.log("script start");
 
-setTimeout(function () {
-  console.log("setTimeout");  // callback
-}, 0);
+// setTimeout(function () {
+//   console.log("setTimeout");  // callback
+// }, 0);
 
-async1(); // fn call
+// async1(); // fn call
 
-new Promise(function (resolve) {
-  console.log("promise1");
-  resolve();
-}).then(function () { // microtask
-  console.log("promise2");
-});
+// new Promise(function (resolve) {
+//   console.log("promise1");
+//   resolve();
+// }).then(function () { // microtask
+//   console.log("promise2");
+// });
 
-console.log("script end");
-// Output:
+// console.log("script end");
+// output:
 // script start
-// async 1 start , promise1,script end, async2, async 1 end promise 2 settimeout
+// async1 start
+// promise1
+// script end
+// Name
+// async1 end
+// promise2
+// setTimeout
+
+// see when we call promise.all([p1,p2]) then as per settimeout promise are reslved so console print as promise resolved but when you console.log(Promise.all([p1,p2])) then it give output in order of promise which you mention inside promise.all
+
+// In below code .then in that no return stratement so in that case promise resolve immediately and console.log(5) print and then console.log(4) but if there is return statment then 4 and then 5 is print.
 
 
+async function abc(){
+  return 'Name'
+}
+// console.log(abc());
 
-// async function abc(){
-//   return 'Name'
-// }
-// // console.log(abc());
-
-// async function xyz(){
-//   const result=await abc();
-//   console.log(result);
-// }
-// console.log(xyz());
+async function xyz(){
+  const result=await abc();
+  console.log(result);
+}
+console.log(xyz());
 
 let p1=new Promise((resolve,reject)=>{
   setTimeout(()=>{
@@ -176,9 +223,6 @@ let p2=new Promise((resolve,reject)=>{
       resolve();
   }, 1000);
 });
-// see when we call promise.all([p1,p2]) then as per settimeout promise are reslved so console print as promise resolved but when you console.log(Promise.all([p1,p2])) then it give output in order of promise which you mention inside promise.all
-
-// In below code .then in that no return stratement so in that case promise resolve immediately and console.log(5) print and then console.log(4) but if there is return statment then 4 and then 5 is print.
 var p3=Promise.all([p1,p2]).then(()=>{
   new Promise((resolve,reject)=>{
       setTimeout(()=>{
@@ -191,5 +235,13 @@ var p3=Promise.all([p1,p2]).then(()=>{
 p3.then(()=>{
   console.log(5);
 })
+
+// output
+// 2
+// Name
+// 3
+// 1
+// 5
+
 
 

@@ -505,7 +505,7 @@ function numSubarraysWithSum(nums,goal){
             }
         }
     };
-    console.log(count);
+    console.log('bruteForce',count);
     return count;
 }
 numSubarraysWithSum([1,0,1,0,1],2);
@@ -527,13 +527,29 @@ function atMostK(arr,k){
     // console.log(count);
     return count;
 }
-
+// sliding window
 function numSubarraysWithSumOpt(arr,k){
-    console.log(atMostK(arr,k) - atMostK(arr,k-1));
+    console.log('sliding window',atMostK(arr,k) - atMostK(arr,k-1));
 }
 
 numSubarraysWithSumOpt([1,0,1,0,1],2);
 numSubarraysWithSumOpt([0,0,0,0,0],0);
+
+function numSubarraysWithSumOptPre(arr,k){
+    let map=new Map();
+    let count=0;
+    map.set(0,1);
+    let prefixSum=0;
+    for(let i=0;i<arr.length;i++){
+        prefixSum+=arr[i];
+        if(map.has(prefixSum-k))count+=map.get(prefixSum-k);
+            map.set(prefixSum,(map.get(prefixSum)||0)+1);
+        }
+    console.log('PrefixSum',count);
+    return count;
+}
+numSubarraysWithSumOptPre([1,0,1,0,1],2);
+numSubarraysWithSumOptPre([0,0,0,0,0],0);
 
 
 function shiftingLetters(str,arr){
@@ -604,3 +620,129 @@ function subarraysDivByKOpt(arr,k){
 }
 subarraysDivByKOpt([4,5,0,-2,-3,1],5);
 
+// Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.
+// Input: nums = [0,1,0]
+// Output: 2
+// Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
+function findMaxLength(arr){
+    let maxLength=0;
+    for(let i=0;i<arr.length;i++){
+        let length=0;
+        let zeroCount=0;
+        let oneCount=0
+        for(let j=i;j<arr.length;j++){
+            if(arr[j]==1)oneCount++
+            else{
+                zeroCount++;
+            }
+            if(oneCount==zeroCount){
+                length=j-i+1;
+                maxLength=Math.max(maxLength,length);
+            }
+        }
+    };
+    console.log('maxLength of contiginous array',maxLength);
+    return maxLength;
+}
+findMaxLength([0,1,1,1,1,1,0,0,0]);
+findMaxLength([0,1,0]);
+findMaxLength([0,1]);
+
+
+function findMaxLengthOpt(arr){
+    arr=arr.map(el=>el==0?-1:el);
+    let map=new Map();
+    map.set(0,-1);
+    let sum=0;
+    let maxLength=0;
+    for(let i=0;i<arr.length;i++){
+        sum+=arr[i];
+        if(map.has(sum)){
+            maxLength=Math.max(maxLength,i-map.get(sum));
+        }else{
+            map.set(sum,i);
+        }
+    }
+    console.log('maxLength of contiginous array Opt',maxLength);
+    return maxLength;
+}
+findMaxLengthOpt([0,1,1,1,1,1,0,0,0]);
+findMaxLengthOpt([0,1,0]);
+findMaxLengthOpt([0,1]);
+
+
+function numSubarrayProductLessThanK(arr,k){
+    let count=0;
+    for(let i=0;i<arr.length;i++){
+        let product=1;
+        for(let j=i;j<arr.length;j++){
+            product*=arr[j];
+            if(product < k)count++;
+        }
+    };
+    console.log(count);
+    return count;
+}
+numSubarrayProductLessThanK([10,5,2,6],100);
+numSubarrayProductLessThanK([1,2,3],0);
+
+function numSubarrayProductLessThanKOpt(arr,k){
+    if(k <=1){
+        console.log(0);return 0;
+    }
+    let start=0;
+    let prd=1;
+    let count=0;
+    for(let end=0;end<arr.length;end++){
+        prd*=arr[end];
+        while(prd >= k){
+            prd/=arr[start];
+            start++;
+        }
+        count+=end-start+1;
+    }
+    console.log(count);
+    return count;
+}
+
+numSubarrayProductLessThanKOpt([10,5,2,6],100);
+numSubarrayProductLessThanKOpt([1,2,3],0);
+
+function minStartValue(arr){
+    let startValue=1;
+    let sum=0
+    for(let i=0;i<arr.length;i++){
+        if(i==0){
+            sum=startValue+arr[i];
+        }else{
+            sum+=arr[i];
+        }
+        if(sum < 1){
+            sum=0;
+            startValue++;
+            i=-1;
+        }
+    }
+    console.log(startValue);
+    return startValue;
+}
+minStartValue([-3,2,-3,4,2])
+minStartValue([1,2]);
+minStartValue([1,-2,-3])
+
+
+function minStartValueOpt(arr){
+    let minPrefix=Infinity;
+    let sum=0;
+    for(let i=0;i<arr.length;i++){
+        sum+=arr[i];
+        minPrefix=Math.min(minPrefix,sum);
+    }
+    let result=1-minPrefix;
+    result=result < 1 ? 1:result
+    console.log(result);
+    return result;
+}
+minStartValueOpt([-3,2,-3,4,2])
+minStartValueOpt([1,2]);
+minStartValueOpt([1,-2,-3])

@@ -181,7 +181,7 @@ subArrayWithGivenSumOpt([2,4],3);
 subArrayWithGivenSumOpt([1,1,1],2);
 subArrayWithGivenSumOpt([1,2,3],3);
 
-
+// IMP
 // find out maximim sum of subarray whoose size is k;
 function maxSumK(arr,k){
     let i=0;
@@ -311,6 +311,7 @@ findAnagrams('cbaebabacd','abc');
 findAnagrams('abab','ab');
 
 //3. Longest Substring Without Repeating Characters
+// IMP
 // Given a string s, find the length of the longest substring without duplicate characters.
 function lengthOfLongestSubstring(str){
     let length=0;
@@ -354,6 +355,7 @@ lengthOfLongestSubstringOpt('bbbbb');
 lengthOfLongestSubstringOpt('pwwkew');
 
 // 209. Minimum Size Subarray Sum
+// IMP
 // Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
 function minSubArrayLen(arr,t){
     let minLength=Infinity;
@@ -530,7 +532,7 @@ function numberOfSubarrays(arr,k){
             if(oddCount>k)break;
         }
     }
-    console.log(length);
+    console.log('niceSubarray',length);
     return length;
 }
 numberOfSubarrays([1,1,2,1,1],3);
@@ -700,13 +702,13 @@ function longestSubarray(arr){
         }
         max=Math.max(max,end-start);
     }
-    max==arr.length?max-1:max;
     console.log(max);
     return max;
 }
 longestSubarray([0,1,1,1,0,1,1,0,1]);
 longestSubarray([1,1,0,1]);
 longestSubarray([1,1,1]);
+longestSubarray([1,1,1,1]);
 
 // 1004. Max Consecutive Ones III
 // Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
@@ -875,4 +877,4 @@ function longestSubarraySumLength(arr,k){
     console.log(maxLength);
     return maxLength;
 }
-longestSubarraySumLength([2,5,1,7,10],14)
+longestSubarraySumLength([2,5,1,7,10],14);

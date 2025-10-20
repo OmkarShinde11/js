@@ -1,3 +1,12 @@
+// arrguments for map reduce anf filter
+// map:currentValue, index, array
+// filter:currentValue, index, array
+// reduce:accumulator → The accumulated value returned from the last callback.
+// currentValue → The element being processed.
+// index → (optional) Index of the element.
+// array → (optional) The whole array.
+// initialValue:The accumlator start value
+//
 //map
 
 arr=[5,6,8,4,2];
