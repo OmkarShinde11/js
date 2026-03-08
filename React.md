@@ -1,28 +1,25 @@
 What is Virtual DOM and how React uses it for rendering optimization?
 -The Virtual DOM (VDOM) is a lightweight, in-memory representation (a JavaScript object) of the real DOM.
 -You can think of it as a copy of the real DOM, but it’s faster to manipulate because it doesn’t directly interact with the browser.
--It helps React efficiently decide what changes need to be made in the actual DOM.
--Render Phase (Virtual DOM Creation):
-    Whenever your component’s state or props change, React re-renders that component to create a new Virtual DOM tree.
-
--Diffing Algorithm (Comparison Step):
-    React then compares the new Virtual DOM tree with the previous one (before the update).
-
--This process is called reconciliation.
-
--React finds the minimal set of changes (differences) between the two virtual DOMs.
-
--Batch Updates (Real DOM Update):
-    After finding what’s changed, React updates only the parts of the real DOM that actually changed — instead of re-rendering the whole UI.
-
--This avoids expensive DOM operations and improves performance.
-
+-Reffer Omkar Shinde Notes of How React works behind scene.
 
 How does React identify which parts of the DOM to update?
 -Read React Notes by Omkar.
 
 Difference between state and props?
 -Read React notes by Omkar.
+
+
+What is React Pure Component?
+A Pure Component is a special type of React component that only re-renders when its props or state actually change.
+React does this by performing a shallow comparison of the previous and next props and state.
+If nothing changed → no re-render
+If something changed → re-render
+This helps improve performance by avoiding unnecessary renders.
+In Functional based component this can be achieved by memo.
+
+How do you improve React app performance?
+I improve React performance by avoiding unnecessary re-renders using React.memo, useCallback, and useMemo, implementing code-splitting with React.lazy, optimizing state management, and handling large lists with pagination or virtualization. I also debounce user inputs and cache API responses.
 
 
 What’s the difference in forms handling?
@@ -126,7 +123,7 @@ function Test(){
 memo,useMemo,useCallback 
 . memo
 1.Memo component is used to memorize a component
-2.Suppose when a component is heavy and there is scenario that state have props as a type variable then we can use memo
+2.Suppose when a component is heavy and there is scenario that they have props as a type variable then we can use memo
 3.So memo place that componennt in memory (but if the props value chnages then it re-render, if props value is same then it not re-render.);
 
 e.g or syntax:
@@ -135,7 +132,7 @@ const archive=memo(function ({show}){
 });
 
 . useMemo
-1.When we use memo to our function so it memorize but when we pass function and objects then it not work as expected so in that scenario for object we should useMemo
+1.When we use memo to our function so it memorize but when we pass function and objects as a props then it not work as expected so in that scenario for object we should useMemo
 2.Because when props pass as object and function in javascript two objects and function are not same.
 e.g. or syntax.
 
@@ -200,7 +197,7 @@ A loading spinner while data is fetching
 The list of users on success
 An error message on failure
 How would you handle this in Redux?
--> On that page inside useEffect i dispatch() thunk function then inside thunk only i do an async operation and inside slice there is one option extraReducer which accept callback function and the thunk always retun promise
+-> On that page inside useEffect i dispatch() thunk function then inside thunk only i do an async operation and inside slice there is one option extraReducer which accept callback function and the thunk always return promise
 So i handle the result of thunk in following way
 
 extraReducers:(builder)=>
@@ -222,7 +219,123 @@ How would you design your Redux logic so both stay in sync without manually pass
 
 
 in cartSlice 
-in side reducer i create two action creator function (addItem,removeItem)
-add bcart button present on that page i use dispatch action 
+inside reducer i create two action creator function (addItem,removeItem)
+add cart button present on that page i use dispatch action 
 and on cartList page i useSelector 
 e.g. let cartList=useSelector((state)=>state.cart);
+
+<!-- configureStore -->
+const store=configureStore({
+    reducer:{
+        user:userSlice,
+        cart:CartSlice
+    }
+});
+<!-- Provde store to app -->
+<Provider store={store}>
+      <App />
+</Provider>
+
+Context API With useReducer.
+
+const randomContext=createContext();
+
+
+const initialState={};
+function reducer(state,action){
+    switch(action.type){
+        case '':
+        return {}
+    }
+}
+function RandomProvider({children}){
+    const [state,dispatch]=useReducer(reducer,initialState);
+    const {one,two}=state;
+    <randomContext.Provider value={{one,two}}>{children}</randomContext.Provider>
+}
+
+function useRandom(){
+    const context=useContext(randomContext);
+    return context;
+}
+
+return {useRandom, RandomProvider}
+<!-- From Component we dispatch like -->
+ onClick={() => dispatch({ type: "restart" })};
+
+ <!-- In index.js -->
+ <React.StrictMode>
+    <RandomProvider>
+      <App />
+    </RandomProvider>
+  </React.StrictMode>
+
+
+What is React Query?
+-React Query (now called TanStack Query) is a data fetching and caching library for React.
+It helps with:
+Fetching server data
+Caching & automatic updates
+Background refetching
+Request deduplication
+
+
+Why use React Query instead of Redux / Context for API data?
+-React Query automatically manages cache, re-fetching, and background synchronization — things Redux doesn’t do by default.
+
+How does React Query fetch data?
+const {isLoading:isUserLoad,data:user}=useQuery({
+        queryKey:['user'],
+        queryFn:getUser,
+});
+
+return {isUserLoad,user};
+
+What is the purpose of queryKey?
+-Identifies each query in the cache.
+-Used for caching, refetching, and invalidation.
+
+What is Query invalidation
+-It tells React Query: “This data is outdated — refetch it!”
+-const queryClient = useQueryClient();
+-queryClient.invalidateQueries(['users']);
+
+What is mutation in react query?
+-Mutations are side-effect operations.
+e.g.
+const queryClient = useQueryClient();
+
+const mutation = useMutation({
+  mutationFn: newUser => fetch('/api/users', {
+    method: 'POST',
+    body: JSON.stringify(newUser),
+  }),
+  onSuccess: () => queryClient.invalidateQueries(['users']),
+});
+
+What is Refetching and when does it happen automatically?
+React Query automatically refetches data when:
+Window is refocused.
+Network reconnects.
+Query becomes stale.
+
+What are staleTime and cacheTime?
+staleTime:How long data is considered fresh.
+cacheTime:How long unused data stays in cache before garbage collected.
+
+<!-- IMP -->
+How does React Query handle caching and background updates?
+-Keeps old data until the new one is fetched (keepPreviousData).
+-Automatically refetches in background if data is stale.
+useQuery({
+  queryKey: ['posts', page],
+  queryFn: fetchPosts,
+  keepPreviousData: true
+});
+
+15. How do you retry failed requests?
+useQuery({
+  queryKey: ['users'],
+  queryFn: fetchUsers,
+  retry: 1, // only 1 retry
+});

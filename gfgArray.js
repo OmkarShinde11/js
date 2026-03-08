@@ -1,5 +1,20 @@
-let arr=[1,2,5,6];console.log( typeof arr); //output:object
+let arr=[1,2,5,6];console.log(typeof arr); //output:object
 console.log(typeof null) // output object.
+
+// Falttern Array 
+function flatternArray(arr,result=[]){
+    for(let i=0;i<arr.length;i++){
+        if(Array.isArray(arr[i])){
+            flatternArray(arr[i],result);
+        }else{
+            result.push(arr[i]);
+        }
+    };
+    console.log('flatternArray',result);
+    return result;
+};
+flatternArray([1,[2,[3,4]],5,6]);
+
 // find largest number in array
 function largest(arr){
     let max=0;
@@ -195,6 +210,7 @@ function thirdLowest(arr){
 thirdLowest(highestArr);
 thirdLowest([12,56,78,43,5,7]);
 
+// Array where start number is greater then from that number all number are small
 function leaderArrayEle(arr){
     let leaderArr=[];
     let check=true;
@@ -346,7 +362,6 @@ maxProfit([30,20,10]);
 maxProfit([10,20,30]);
 maxProfit([1,5,3,1,2,8]);
 
-
 function trapRainWater(arr){
     let result=0;
     for(let i=1;i<arr.length-1;i++){
@@ -447,16 +462,16 @@ maxSumSubArray([-3,8,-2,4,-5,6]);
 // store all max sum result in array & pass that array in Math.max
 // so we get one maximum number from this that number is an output
 function maxSumSubArrayMod(arr){
-    let temp=[arr[0]];
+    let max=arr[0];
     let currSum=arr[0];
     for(let i=1;i<arr.length;i++){
         let diff=arr[i]+currSum;
         currSum=Math.max(diff,arr[i]);
-        temp.push(currSum);
+        max=Math.max(max,currSum);
     };
     // console.log(temp);
-    console.log('max Sum subarray Modify',Math.max(...temp))
-    return Math.max(...temp)
+    console.log('max Sum subarray Modify',max)
+    return max
 };
 maxSumSubArrayMod([2,3,-8,7,-1,2,3]);
 maxSumSubArrayMod([5,8,3]);
@@ -467,6 +482,7 @@ maxSumSubArrayMod([-2,1,-3,4,-1,2,1,-5,4]);
 maxSumSubArrayMod([-3,8,-2,4,-5,6]);
 maxSumSubArrayMod([5,-2,3,4]);
 
+// Pending
 function maxEvenOdd(arr){
     let max=0;
     let freq=0;
@@ -569,7 +585,7 @@ function maxCircularSubArrayMod(arr){
     // there is one check that if maximum of noraml subarray is less than 0 then we return that no furthur operation we can do
 
     if(max<0){
-        console.log('max Circular subarray mod',max);
+        console.log('max Circular subarray mo8d',max);
         return max
     }
     
@@ -673,36 +689,36 @@ majorityElAlgo([8,3,4,8,8]);
 function minFlips(arr){
     let zeroGroup=0;
     let oneGroup=0;
-    // for(let j=1;j<arr.length;j++){
-    //     if(arr[j-1]!==arr[j] && arr[j-1]==1){
-    //         oneGroup++;
-    //     }
-    //     else if(arr[j-1]!==arr[j] && arr[j-1]==0){
-    //         zeroGroup++;
-    //     }
-    //     if(j==arr.length-1 && arr[j]==1){
-    //         oneGroup++;
-    //     }
-    //     else if(j==arr.length-1 && arr[j]==0){
-    //         zeroGroup++;
-    //     }
-    // }
-
-    // alternative way
-    let prev=arr[0];
-    prev==0?zeroGroup++:oneGroup++;
-    for(let i=1;i<arr.length;i++){
-        if(arr[i]!==prev){
-            if(arr[i]==0){
-                zeroGroup++;
-                prev=arr[i];
-            }
-            else{
-                oneGroup++;
-                prev=arr[i];
-            }
+    for(let j=1;j<arr.length;j++){
+        if(arr[j-1]!==arr[j] && arr[j-1]==1){
+            oneGroup++;
+        }
+        else if(arr[j-1]!==arr[j] && arr[j-1]==0){
+            zeroGroup++;
+        }
+        if(j==arr.length-1 && arr[j]==1){
+            oneGroup++;
+        }
+        else if(j==arr.length-1 && arr[j]==0){
+            zeroGroup++;
         }
     }
+
+    // alternative way
+    // let prev=arr[0];
+    // prev==0?zeroGroup++:oneGroup++;
+    // for(let i=1;i<arr.length;i++){
+    //     if(arr[i]!==prev){
+    //         if(arr[i]==0){
+    //             zeroGroup++;
+    //             prev=arr[i];
+    //         }
+    //         else{
+    //             oneGroup++;
+    //             prev=arr[i];
+    //         }
+    //     }
+    // }
     // console.log(oneGroup,zeroGroup);
     if(zeroGroup===oneGroup){
         let temp=[];
@@ -758,6 +774,7 @@ minFlipsMod([0,1]);
 minFlipsMod([1,1,1]);
 minFlipsMod([0,0,1,1,0,0,1,1,0,1]);
 
+// pending
 function maxProductSubArray(nums){
     let maxProd = nums[0];
     let minProd = nums[0];
@@ -798,6 +815,7 @@ function maxProductSubArrayBru(arr){
 }
 maxProductSubArrayBru([2,3,-2,4]);
 
+// pending
 function maxPositiveProductSubarray(arr){
     let product=1;
     let maxLength=0;
@@ -1289,3 +1307,213 @@ function finalValueAfterOperations(arr){
 finalValueAfterOperations(["--X","X++","X++"]);
 finalValueAfterOperations(["++X","++X","X++"]);
 finalValueAfterOperations(["X++","++X","--X","X--"]);
+
+function formUpWaveArray(arr){
+    // O(N) SQUARE TIME COMPLEXCITY
+    // let result=new Array(arr.length);
+    // let up=true;
+    // for(let i=0;i<arr.length;i++){
+    //     for(let j=i+1;j<=arr.length;j++){
+    //         if(arr[j]==undefined)result[i]=arr[i];
+    //         if(up){
+    //             if(arr[j]>arr[i]){
+    //                 result[i]=arr[j];
+    //                 [arr[i],arr[j]]=[arr[j],arr[i]];
+    //             }else{
+    //                 result[i]=arr[i];
+    //             }
+    //             up=false;
+    //             break;
+    //         }else{
+    //             if(arr[j]<arr[i]){
+    //                 result[i]=arr[j];
+    //                 [arr[i],arr[j]]=[arr[j],arr[i]];
+    //             }else{
+    //                 result[i]=arr[i];
+    //             }
+    //             up=true;
+    //             break;
+    //         }
+    //     }
+    // };
+    // console.log(result);
+    // O(N) TIME COMPLEXCITY
+    let result=new Array(arr.length);
+    let up=true;
+    for(let i=0;i<arr.length;i++){
+        if(arr[i+1]==undefined)result[i]=arr[i];
+        if(up){
+            if(arr[i+1]>arr[i]){
+                result[i]=arr[i+1];
+                [arr[i],arr[i+1]]=[arr[i+1],arr[i]];
+            }else{
+                result[i]=arr[i];
+            }
+            up=false;
+        }else{
+            if(arr[i+1]<arr[i]){
+                result[i]=arr[i+1];
+                [arr[i],arr[i+1]]=[arr[i+1],arr[i]];
+            }else{
+                result[i]=arr[i];
+            }
+            up=true;
+        }
+    };
+    console.log(result);
+}
+formUpWaveArray([3, 6, 5, 10, 7, 20]);
+formUpWaveArray([1, 2, 3, 4, 5, 6]);
+formUpWaveArray([10, 90, 49, 2, 1, 5, 23]);
+formUpWaveArray([4, 3, 7, 8, 6, 2, 1]);
+formUpWaveArray([5,5,5,5]);
+
+
+// [ 6, 3, 10, 5, 20, 7 ]
+// [ 2, 1, 4, 3, 6, 5 ]
+// [
+//   90, 10, 49, 1,
+//    5,  2, 23
+// ]
+// [
+//   4, 3, 8, 6,
+//   7, 1, 2
+// ]
+// [ 5, 5, 5, 5 ]
+
+// rearrange element by sign
+function rearrange(arr){
+    let positive=0;
+    let negetive=1;
+    let result=new Array(arr.length).fill(0);
+    for(let i=0;i<arr.length;i++){
+        if(arr[i] > 0){
+            result[positive]=arr[i];
+            positive+=2;
+        }
+        else{
+            result[negetive]=arr[i];
+            negetive+=2;
+        }
+    };
+    console.log(result);
+    return result;
+}
+rearrange([3,1,-2,-5,2,-4]);
+
+function distinct(arr){
+    let set=new Set();
+    for(let i=0;i<arr.length;i++){
+        set.add(arr[i]);
+    };
+    console.log(Array.from(set));
+    return Array.from(set);
+}
+distinct([10,20,20,10,30,10]);
+
+function mergetwoSortedArr(arr1,arr2){
+    let low=arr1.length-1;
+    let high=0
+    // here first we kept all smallest elment from both array to kept in one array.
+    for(let i=0;i<arr.length;i++){
+        if(arr2[high] < arr1[low]){
+            let temp=arr2[high];
+            arr2[high]=arr1[low];
+            arr1[low]=temp;
+            high++;
+            low--;
+        }else{
+            high++;
+        }
+    };
+    arr1=arr1.sort((a,b)=>a-b);
+    arr2=arr2.sort((a,b)=>a-b);
+    console.log(arr1,arr2);
+    arr1=[...arr1,...arr2];
+    console.log(arr1);
+    return arr1;
+}
+mergetwoSortedArr([1,3,5,7],[0,2,6,8,9]);
+
+function sortColors(arr){
+    let low=0;
+    let high=arr.length-1;
+    for(let i=0;i<arr.length-1;i++){
+        if(arr[i]==0){
+            let temp=arr[i];
+            arr[i]=arr[low];
+            arr[low]=temp;
+            low++;
+        }
+        else if(arr[i]==2){
+            let temp=arr[i];
+            arr[i]=arr[high];
+            arr[high]=temp;
+            high--;
+        }
+    };
+    console.log(arr);
+    return arr;
+}
+sortColors([0,1,0,1,2,0,1]);
+
+function nextGreaterElementSimple(arr){
+    let result=[];
+    for(let i=0;i<arr.length;i++){
+        let check=false;
+        for(let j=i+1;j<arr.length;j++){
+            if(arr[j]>arr[i]){
+                result.push(arr[j]);
+                check=true;
+                break;
+            }
+        }
+        if(!check){
+            result.push(-1);
+        }
+    };
+    console.log(result);
+    return result;
+}
+
+nextGreaterElementSimple([6,8,0,1,3]);
+
+
+// last stone weight
+function lastStoneWeight(arr){
+    if(arr.length==1) return arr[0];
+    while(arr.length!==1){
+        arr=stoneWeight(arr);
+    };
+    console.log(arr[0]);
+    return arr[0];
+}
+
+function stoneWeight(arr){
+    arr=arr.sort((a,b)=>b-a);
+    let diff=arr[0]-arr[1];
+    arr=arr.slice(1,arr.length);
+    arr[0]=diff;
+    // console.log(arr);
+    return arr;
+}
+
+lastStoneWeight([2,7,4,1,8,1]);
+lastStoneWeight([1]);
+
+function maxAscSubarraySum(arr){
+    let max=-Infinity;
+    let sum=arr[0];
+    for(let i=1;i<arr.length;i++){
+        if(arr[i] > arr[i-1]){
+            sum+=arr[i];
+            max=Math.max(max,sum);
+        }else{
+            sum=arr[i];
+        }
+    };
+    console.log(max);
+    return max;
+}
+maxAscSubarraySum([10,20,30,5,10,50]);
+

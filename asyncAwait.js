@@ -49,7 +49,7 @@ async function random1(){
 random1().then((data)=>{console.log(data)});
 console.log('called');
 
-// So the difference is when you handle promise by .then so it not wait to resolve the promise and it execute the below code & when you handle the promise by await so it wait to reolve the promise and then it execute below code.
+// So the difference is when you handle promise by .then so it not wait to resolve the promise and it execute the below code & when you handle the promise by await so it wait to resolve the promise and then it execute below code.
 
 
 

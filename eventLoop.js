@@ -1,30 +1,30 @@
 // 1st e.g.
 // console.log('begins');
 // setTimeout(() => {
-//     console.log(2)
+//     console.log(2);
 // },0);
 // Promise.resolve().then(()=>{console.log(3)}).then(()=>{console.log(4)});
 
 //2nd e.g.
-// console.log('begins');
-// setTimeout(() => {   // callback
-//     console.log('setTimeout 1');
-//     Promise.resolve().then(()=>{  // microtask
-//         console.log('Promise 1')
-//     })
-// },0);
-// new Promise((resolve,reject)=>{
-//     console.log('Promise 2');
-//     setTimeout(()=>{
-//         console.log('settimeout2');// callback
-//         resolve("resolve 1")
-//     },0)
-// }).then((res)=>{
-//     console.log('dot then 1'); // microtask
-//     setTimeout(() => {
-//         console.log(res);// callback
-//     }, 0);
-// })
+console.log('begins');
+setTimeout(() => {   
+    console.log('setTimeout 1');
+    Promise.resolve().then(()=>{  
+        console.log('Promise 1')
+    })
+},0);
+new Promise((resolve,reject)=>{
+    console.log('Promise 2');
+    setTimeout(()=>{
+        console.log('settimeout2');
+        resolve("resolve 1")   
+    },0)
+}).then((res)=>{
+    console.log('dot then 1'); 
+    setTimeout(() => {
+        console.log(res);
+    }, 0);
+})
 // Explaining Output:
 // here first begins and promise 2 are print because they placed directly in callstack
 // and when memory execution phase rest of code place in callback so settimeout occur first will print settimeout1 and then one promise resolve which place in micotask and it excute & print promise 1
@@ -105,6 +105,105 @@
 //3
 //4
 //2
+
+// 4th e.g.
+
+// console.log("A");
+
+// setTimeout(() => {
+//   console.log("B");
+// }, 0);
+
+// console.log("C");
+
+// 5th e.g.
+
+// console.log("1");
+
+// setTimeout(() => {
+//   console.log("2");
+// }, 0);
+
+// Promise.resolve().then(() => {
+//   console.log("3");
+// });
+
+// console.log("4");
+
+// 6th e.g.
+
+// console.log("start");
+
+// Promise.resolve().then(() => {
+//   console.log("p1");
+
+//   Promise.resolve().then(() => {
+//     console.log("p2");
+//   });
+// });
+
+// console.log("end");
+
+// 7th e.g
+
+// console.log("A");
+
+// Promise.resolve().then(() => {
+//   console.log("B");
+
+//   setTimeout(() => {
+//     console.log("C");
+//   }, 0);
+// });
+
+// setTimeout(() => {
+//   console.log("D");
+// }, 0);
+
+// console.log("E");
+
+// 8th e.g.
+
+// setTimeout(() => console.log("T1"), 0);
+
+// Promise.resolve().then(() => console.log("P1"));
+
+// Promise.resolve().then(() => {
+//   console.log("P2");
+//   setTimeout(() => console.log("T2"), 0);
+// });
+
+// console.log("S");
+
+// 9th e.g.
+
+// async function test() {
+//     console.log("A");
+  
+//     await Promise.resolve();
+  
+//     console.log("B");
+//   }
+  
+//   console.log("C");
+  
+//   test();
+  
+//   console.log("D");
+
+// 10th e.g
+
+// setTimeout(() => {
+//     console.log("1");
+  
+//     setTimeout(() => {
+//       console.log("2");
+//     }, 0);
+  
+//     Promise.resolve().then(() => {
+//       console.log("3");
+//     });
+//   }, 0);
 
 // there is one scenario 
 // e.g. if there is code where each function create an new promise and so on 
@@ -199,42 +298,42 @@
 // In below code .then in that no return stratement so in that case promise resolve immediately and console.log(5) print and then console.log(4) but if there is return statment then 4 and then 5 is print.
 
 
-async function abc(){
-  return 'Name'
-}
-// console.log(abc());
+// async function abc(){
+//   return 'Name'
+// }
+// // console.log(abc());
 
-async function xyz(){
-  const result=await abc();
-  console.log(result);
-}
-console.log(xyz());
+// async function xyz(){
+//   const result=await abc();
+//   console.log(result);
+// }
+// console.log(xyz());
 
-let p1=new Promise((resolve,reject)=>{
-  setTimeout(()=>{
-      console.log(1);
-      resolve()
-  },2000)
-});
-console.log(2);
-let p2=new Promise((resolve,reject)=>{
-  setTimeout(() => {
-      console.log(3);
-      resolve();
-  }, 1000);
-});
-var p3=Promise.all([p1,p2]).then(()=>{
-  new Promise((resolve,reject)=>{
-      setTimeout(()=>{
-          console.log(4);
-          resolve();
-      },3000);
-  })
-});
+// let p1=new Promise((resolve,reject)=>{
+//   setTimeout(()=>{
+//       console.log(1);
+//       resolve()
+//   },2000)
+// });
+// console.log(2);
+// let p2=new Promise((resolve,reject)=>{
+//   setTimeout(() => {
+//       console.log(3);
+//       resolve();
+//   }, 1000);
+// });
+// var p3=Promise.all([p1,p2]).then(()=>{
+//   new Promise((resolve,reject)=>{
+//       setTimeout(()=>{
+//           console.log(4);
+//           resolve();
+//       },3000);
+//   })
+// });
 
-p3.then(()=>{
-  console.log(5);
-})
+// p3.then(()=>{
+//   console.log(5);
+// })
 
 // output
 // 2

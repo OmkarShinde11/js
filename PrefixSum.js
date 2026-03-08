@@ -264,6 +264,7 @@ maximumApperenceInRangeOpt([1,2,4],[4,5,7]);
 // The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
 // You must write an algorithm that runs in O(n) time and without using the division operation.
 function productExceptSelf(arr){
+    // here we use exclusive prefix because here we do not include current element.
     let result=new Array(arr.length);
     let prefixProduct = new Array(arr.length).fill(1);
     for (let i = 1; i < arr.length; i++) {

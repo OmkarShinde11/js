@@ -83,15 +83,15 @@ var z=x()(); //output:80
 // count()(); // here function increment forms a closure with count so here count is also not change without calling count function.
 
 // so here eg1 counter is different
-var eg1=count();
-eg1();
-eg1();
+// var eg1=count();
+// eg1();
+// eg1();
 
 // so here eg2 counter is different
 
-var eg2=count();
-eg2();
-eg2();
+// var eg2=count();
+// eg2();
+// eg2();
 // alterntive way for above one is constructor function.
 
 function Counter(){
@@ -138,3 +138,6 @@ function a(){
 a()(); // here when a() is called then it return b() so execution is gone but the memory is not deleted where b forms a closure with variable n and function a so a()() is called it use the refference of the var so var is not in garbage collection so in this way it increase a memory space.
 
 // in above code first var result=a() so it return function b untile we not call that function result() till that time it is placed in memory its not store in garbage collection.
+
+
+

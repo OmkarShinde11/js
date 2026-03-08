@@ -33,6 +33,41 @@ twoSumOpt([2,7,11,15],9);
 twoSumOpt([2,3,4],6);
 twoSumOpt([-1,0],-1);
 
+// twoSum
+// Unsorted array;
+
+function twoSumUnsorted(arr,t){
+    let map=new Map();
+    for(let i=0;i<arr.length;i++){
+        let diff=t-arr[i]
+        if(map.has(diff)){
+            console.log([map.get(diff),i]);
+            return [map.get(diff),i];
+        };
+        map.set(arr[i],i);
+    };
+    return [];
+}
+
+twoSumUnsorted([8, -1, 2, -3, 7],4);
+
+
+// Missing Number
+// length= n*n+1/2 
+// then length-sum
+function missingNumber(arr){
+    let n=arr.length;
+    let length=n*(n+1)/2;
+    let sum=0;
+    for(let i=0;i<arr.length;i++){
+        sum+=arr[i];
+    };
+    console.log('missing number',length-sum);
+    return length-sum;
+}
+missingNumber([3,0,1]);
+missingNumber([9, 6, 4, 2, 3, 5, 7, 0, 1]);
+
 // Reverse String
 function reverse(str){
     let start=0;
@@ -51,7 +86,7 @@ reverse(["h","e","l","l","o"]);
 reverse(["H","a","n","n","a","h"]);
 
 
-
+// 88. Merge Sorted Array
 
 function merge(arr1,arr2,m,n){
     arr1=arr1.slice(0,m);
@@ -65,6 +100,8 @@ merge([1,2,3,0,0,0],[2,5,6],3,3);
 
 
 // using two pointer
+// IMP
+// Use 3 pointer one is p =m+n-1 and two are m-1 and n-1;
 function mergeOpt(arr,arr2,m,n){
     let left=m-1;
     let right=n-1;
@@ -90,13 +127,13 @@ function isHappy(n) {
     let set=new Set();
     while(n !== 1 && !set.has(n)){
         set.add(n);
-        n=giveSum(n.toString(),set);
+        n=giveSum(n.toString());
     };
     console.log(n===1);
     return n===1;
 };
 
-function giveSum(str,set){
+function giveSum(str){
     let sum=0;
     for(let i=0;i<str.length;i++){
         sum+=Number(str[i])*Number(str[i]);
@@ -114,6 +151,7 @@ function removeDuplicates(arr){
         set.add(arr[i]);
     };
     console.log(set.size);
+    console.log(Array.from(set));
     return set.size;
 };
 removeDuplicates([1,1,2]);
@@ -174,9 +212,10 @@ function moveZeroesOpt(arr){
             left++;
         }
     };
-    console.log(arr);
+    console.log('ZeroEnd',arr);
 }
 moveZeroesOpt([0,1,0,3,12]);
+moveZeroesOpt([[8,5,0,10,0,20]]);
 
 
 // 11. Container With Most Water
@@ -190,7 +229,7 @@ moveZeroesOpt([0,1,0,3,12]);
 
 // NOTE: Here you have to find max area of water from two position
 
-
+// IMP
 function findWater(arr){
     let maxArea=-Infinity;
     for(let i=0;i<arr.length;i++){
@@ -293,8 +332,12 @@ var removeElementk = function(arr, val) {
 removeElementk([0,1,2,2,3,0,4,2],2);
 
 
-
+// IMP
 // 345. Reverse Vowels of a String
+// here pointer initial position is 1 and last then check vowel of left check vowel right 
+// if left is not vowel move
+// if right is not vowel move .
+// if both vowel move both
 function reverseVowels(str){
     str=str.split('');
     let left=0;
@@ -509,31 +552,329 @@ validPalindrome2Opt("cbbcc");
 
 
 function threeSum(arr){
-    let left=1;
-    let right=arr.length-1;
-    let set=new Set();  
-    arr=arr.sort((a,b)=>a-b);
-    // console.log(arr);
+    let result=new Set();
     for(let i=0;i<arr.length;i++){
-        for(let j=left;j<arr.length-1;j++){
-            let sum=arr[i]+arr[left]+arr[right];
-            if(sum==0){
-                let triplet=[arr[i],arr[left],arr[right]].sort((a,b)=>a-b).join(",");
-                if(!set.has(triplet)){
-                    set.add(triplet);
+        for(let j=i+1;j<arr.length;j++){
+            for(let k=j+1;k<arr.length;k++){
+                let sum=arr[i]+arr[j]+arr[k];
+                if(sum==0){
+                    triplet=[arr[i],arr[j],arr[k]].sort((a,b)=>a-b).join(",");
+                    if(!result.has(triplet)){
+                        result.add(triplet);
+                    }
                 }
-                left++;
-                right--;
             }
-            if(sum < 0) left++;
-            if(sum > 0) right--;
-        };
-        left=i+2;
-        right=arr.length-1;
+        }
     };
-
-    set=[...set].map(str=>str.split(',').map(Number));
-    console.log('threeSumOpt',set);
-    return set;
+    result=[...result].map(str=>str.split(',').map(Number));
+    console.log(result);
+    return result
 };
 threeSum([-1,0,1,2,-1,-4]);
+
+function threeSumOpt(arr){
+    // using two pointer
+    arr.sort((a, b) => a - b);
+    const result = [];
+    for (let i = 0; i < arr.length - 2; i++) {
+    // 1) skip duplicate i (important)
+    if (i > 0 && arr[i] === arr[i - 1]) continue;
+
+    let left = i + 1;
+    let right = arr.length - 1;
+
+    while (left < right) {
+      const sum = arr[i] + arr[left] + arr[right];
+
+      if (sum === 0) {
+        result.push([arr[i], arr[left], arr[right]]);
+
+        // 2) save values and skip duplicates by value (safe)
+        // so before incrementing left and decrement right store the value and when we increment left and decrement right then check with previous value if it same again increase till value not change.
+        const leftVal = arr[left];
+        const rightVal = arr[right];
+        while (left < right && arr[left] === leftVal) left++;
+        while (left < right && arr[right] === rightVal) right--;
+    } 
+    else if (sum < 0) {
+        left++;
+    } else {
+        right--;
+    }
+    }
+  }
+
+  return result;
+
+
+// using hashing and two loops
+// let result=new Set();
+// for(let i=0;i<arr.length;i++){
+//     let tempSet=new Set();
+//     for(let j=i+1;j<arr.length;j++){
+//         let checked=-(arr[i]+arr[j]);
+//         if(tempSet.has(checked)){
+//             let tripplet=[arr[i],arr[j],checked].sort((a,b)=>a-b).join(',');
+//             if(!result.has(tripplet))result.add(tripplet);
+//         }
+//         tempSet.add(arr[j]);
+//     }
+// };
+
+// result=[...result].map(str=>str.split(',').map(Number));
+// console.log(result);
+// return result;
+};
+
+
+threeSumOpt([-1,0,1,2,-1,-4]);
+threeSumOpt([0,0,0,0]);
+
+
+// 209. Minimum Size Subarray Sum
+// Two Pointer: Parell Patterns approch same as sliding window (variable window approch)
+function minSubArrayLen(arr,t){
+    let start=0;
+    let sum=0;
+    let minLength=Infinity;
+    for(let end=0;end<arr.length;end++){
+        sum+=arr[end];
+        while(sum >= t){
+            minLength=Math.min(minLength,end-start+1);
+            sum-=arr[start];
+            start++;
+        }
+    };
+    if(minLength==Infinity)minLength=0
+    console.log(minLength);
+    return minLength;
+}
+
+minSubArrayLen([2,3,1,2,4,3],7);
+
+// 3. Longest Substring Without Repeating Characters
+function lengthOfLongestSubstring(str){
+    str=str.split('');
+    let start=0;
+    let set=new Set();
+    for(let end=0;end<str.length;end++){
+        while(set.has(str[end])){
+            set.delete(str[end]);
+            start++;
+        }
+        set.add(str[end]);
+    };
+    console.log(set.size);
+    return set.size;
+}
+
+lengthOfLongestSubstring('abcabcbb');
+
+
+function longestSubstringK(str,k){
+    str=str.split('');
+    let start=0;
+    let map=new Map();
+    let maxLength=-Infinity
+    for(let end=0;end<str.length;end++){
+        // this line come before while because new element is add which change map size to greater than k then while loop should execute to change the map size
+        map.set(str[end],(map.get(str[end]) || 0)+1);
+        while(map.size > k){
+            map.set(str[start],map.get(str[start])-1);
+            if(map.get(str[start])==0) map.delete(str[start]);
+            start++;
+        };
+        maxLength=Math.max(maxLength,end-start+1);
+    };
+    console.log(maxLength);
+    return maxLength;
+}
+longestSubstringK('eceba',2);
+
+
+function minWindow(s,t){
+    let strMap=new Map();
+    let typedMap=new Map();
+    for(let ch of t){
+        typedMap.set(ch,(typedMap.get(ch)||0)+1);
+    };
+
+    // console.log(typedMap);
+    let start=0;
+    let have=0; // to check the freq of character is equal to freq in string
+    let res='';
+    let minLength=Infinity;
+    for(let end=0;end<s.length;end++){
+        strMap.set(s[end],(strMap.get(s[end])||0)+1);
+        if(strMap.get(s[end]) === typedMap.get(s[end]))have++;
+        while(have===typedMap.size){
+            if(end-start+1 < minLength){
+                minLength=Math.min(minLength,end-start+1);
+                res=s.slice(start,end+1);
+            }
+            strMap.set(s[start],strMap.get(s[start])-1);
+            if(strMap.get(s[start])< typedMap.get(s[start]))have--; // to check the freq of character is equal to freq in string
+            start++;
+        }
+    };
+    console.log('str',res);
+    return res;
+}
+
+minWindow('ADOBECODEBANC','ABC');
+minWindow('a','a');
+minWindow('a','aa');
+
+// 1493. Longest Subarray of 1's After Deleting One Element
+// here i have do end-start because we have to delete one element.
+function longestSubarray(arr){
+    let start=0;
+    let zeroCount=0;
+    let max=-Infinity;
+    for(let end=0;end<arr.length;end++){
+        if(arr[end]==0)zeroCount++;
+        while(zeroCount > 1){
+            if(arr[start]==0)zeroCount--
+            start++;
+        }
+        max=Math.max(max,end-start);
+    };
+    console.log('longest',max);
+}
+
+longestSubarray([1,1,0,1]);
+longestSubarray([0,1,1,1,0,1,1,0,1]);
+
+
+// 1004. Max Consecutive Ones III
+// here i am calculate length of subarray so that's why i do end-start+1;
+function longestOnes(arr,k){
+    let start=0;
+    let max=-Infinity;
+    let zeroCount=0;
+    for(let end=0;end<arr.length;end++){
+        if(arr[end]===0)zeroCount++;
+        while(zeroCount > k){
+            if(arr[start]==0)zeroCount--;
+            start++;
+        }
+        max=Math.max(max,end-start+1);
+    };
+    console.log('longOnes',max)
+};
+longestOnes([1,1,1,0,0,0,1,1,1,1,0],2)
+
+function maxFrequency(arr,k,o){
+    let rangeStart=k * -1;
+    let rangeArr=[];
+    let count=0;
+    let max=0;
+    for(let i=rangeStart;i<=k;i++){
+        rangeArr.push(i);
+    };
+    // console.log(rangeArr);
+    for(let i=0;i<arr.length;i++){
+        count=1;
+        max=Math.max(max,count);
+        for(j=i+1;j<arr.length;j++){
+                let check=arr[i]-arr[j];
+                if(o > 0){
+                    if(rangeArr.includes(check)){
+                        count++;
+                        max=Math.max(max,count);
+                    };
+                }
+        }
+    }
+    console.log(max);
+    return max;
+}
+
+maxFrequency([1,4,5],1,2);
+maxFrequency([5,11,20,20],5,1);
+maxFrequency([5,49],97,0);
+maxFrequency([88,53],27,2);
+
+// 1716. Calculate Money in Leetcode Bank
+
+var totalMoney = function(n) {
+    let count=0;
+    let output=0;
+    let initialSum=0;
+    let mondayCounter=1;
+    for(let i=1;i<=n;i++){
+        count++;
+        if(count > 7){
+            mondayCounter++;
+            count=1;
+            initialSum=mondayCounter;
+            output+=initialSum;
+        }else{
+            initialSum=initialSum+1
+            output+=initialSum;
+        }
+    };
+    console.log(output);
+    return output;
+};
+
+totalMoney(10);
+totalMoney(20);
+totalMoney(4);
+
+
+function meregAlternativeString(str1, str2){
+    let left=0;
+    let right=0;
+    let result='';
+    while(left <=str1.length-1 && right <=str2.length-1){
+       result+=str1[left]+str2[right];
+       left++;
+       right++;
+    };
+    while(left <=str1.length-1){
+        result+=str1[left];
+        left++;
+    };
+    while(right <=str2.length-1){
+        result+=str2[right];
+        right++;
+    };
+    console.log(result);    
+    return result;
+}
+meregAlternativeString('ab','pqrs');
+meregAlternativeString('abc','pqr');
+meregAlternativeString('abcd','pq');
+
+function isSubsequence(str1,str2){
+    let left=0;
+    for(let i=0;i<str2.length;i++){
+        if(str1[left]==str2[i]){
+            left++;
+        }
+    };
+    console.log(left==str1.length ? true:false);
+    return left==str1.length ? true:false;
+}
+
+isSubsequence('abc', 'ahbgdc');
+isSubsequence('axc', 'ahbgdc');
+isSubsequence('acb', 'ahbgdc');
+isSubsequence('b','c');
+isSubsequence("","ahbgdc");
+
+
+const arr=[1,2,3,[4,[5,6,[7,8]]]];
+function flatternArray(arr,result=[]){
+    for(let i=0;i<arr.length;i++){
+        if(Array.isArray(arr[i])){
+            flatternArray(arr[i],result);
+        }else{
+            // result.push(arr[i])
+            result=result.concat(arr[i])
+        }
+    };
+    console.log(result);
+}
+flatternArray(arr);

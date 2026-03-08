@@ -1068,20 +1068,21 @@ console.log(removedup([3,3,5,4,3,5]))
 // using two pointer approch
 // this approch is for sorted array
 function removedupOpt(arr){
-    let i=0;
-    // let result=[];
-    for(let j=1;j<arr.length;j++){
+    let j=0;
+    for(let i=1;i<arr.length;i++){
+        // Here we remove duplicate occurence & whatever duplicate it goes to end;  
         if(arr[i]!==arr[j]){
-            // result.push(arr[j]);
-            i++;
-            arr[i]=arr[j];
+            j++;
+            arr[j]=arr[i];
         }
-    }
-    console.log(i+1);
-    return i+1
+    };
+
+    // here we remove trailing duplicate.
+    arr.length=j+1;
+    console.log(arr);
+    return arr;
 }
 removedupOpt([0,0,1,1,1,2,2,3,3,4])
-removedupOpt([3,3,5,4,3,5])
 
 
 function remove(nums,val){
@@ -2985,3 +2986,404 @@ maxEvents([[1,2],[2,3],[3,4],[1,2]]);
 maxEvents([[1,4],[4,4],[2,2],[3,4],[1,1]]);
 maxEvents([[1,2],[1,2],[3,3],[1,5],[1,5]]);
 maxEvents([[52,79],[7,34]]);
+
+
+function coupenCodeValidator(code, businessLine, isActive){
+    let  result=[];
+    let business_arr=["electronics", "grocery", "pharmacy", "restaurant"];
+    const regex = /^[a-zA-Z0-9_]+$/;
+    for(let i=0;i<code.length;i++){ 
+        if(code[i]!=='' && regex.test(code[i])){
+            if(business_arr.includes(businessLine[i].toLowerCase()) && isActive[i]){
+                result.push(code[i]);
+            }
+        }
+    };
+    
+};
+coupenCodeValidator(["SAVE20","","PHARMA5","SAVE@20"],["restaurant","grocery","pharmacy","restaurant"],[true,true,true,true]);
+coupenCodeValidator(["GROCERY15","ELECTRONICS_50","DISCOUNT10"],["grocery","electronics","invalid"],[false,true,true]);
+
+function groupAnagrams(arr){
+    let map=new Map();
+    let result=[];
+    arr.forEach((el,index)=>{
+        let key=el.split('').sort();
+        key=key.join('');
+        if(map.has(key)){
+            map.get(key).push(el)
+        }else{
+            map.set(key,[el]);
+        }
+    })
+    for(let [key,value] of map){
+        result.push(value);
+    };
+    console.log(result);
+}
+groupAnagrams(['eat','tea','tan','ate','nat','bat']);
+
+function jusOneMismatch(arr,s){
+    for(let i=0;i<arr.length;i++){
+        let count=0;
+        let el=arr[i].split('');
+        if(el.length==s.length){
+            for(let j=0;j<el.length;j++){
+                if(count >=1)break;
+                if(el[j]!=s[j]){
+                    count++;
+                }
+            }
+            if(count==1){
+                console.log('missmatch',arr[i]);
+                return arr[i];
+            }
+        }
+    }
+}
+jusOneMismatch(['bana','apple','banaba','bonazo'],'banana');
+
+//961. N-Repeated Element in Size 2N Array
+
+function repeatedNTimes(arr){
+    let length=arr.length;
+    let n=arr.length/2;
+
+    let map=new Map();
+    for(let i=0;i<arr.length;i++){
+        map.set(arr[i],(map.get(arr[i])|| 0)+1);
+    };
+    for(let [key,value] of map){
+        if(map.get(key)==n){
+            console.log('N Repeated',key);
+            return key;
+        }
+    }
+}
+
+repeatedNTimes([1,2,3,3]);
+repeatedNTimes([2,1,2,5,3,2]);
+repeatedNTimes([5,1,5,2,5,3,5,4]);
+
+function maxVowels(str,k){
+    str=str.split('');
+    let maxCount=0
+    for(let i=0;i<str.length;i++){
+        let count=0
+        if(checkVowels(str[i])){
+            count++;
+            maxCount=Math.max(maxCount,count);
+        };
+        for(let j=i+1;j<=i+(k-1);j++){
+            if(checkVowels(str[j])){
+                count++;
+                maxCount=Math.max(maxCount,count);
+            }
+        };
+    };
+    console.log(maxCount);
+    return maxCount;
+};
+
+function checkVowels(str){
+    return 'aeiou'.includes(str);
+}
+
+maxVowels('abciiidef',3);
+maxVowels('aeiou',2);
+maxVowels('leetcode',3);
+
+function maxVowelsOpt(str,k){
+    str=str.split('');
+    let count=0;
+    let maxCount=0;
+    for(let i=0;i<k;i++){
+        if(checkVowels(str[i])){
+            count++;
+        };
+    }
+    maxCount=Math.max(maxCount,count);
+
+    for(let i=1;i<str.length;i++){
+        if(str[i+k-1]==undefined)break;
+        if(checkVowels(str[i-1])){
+            count--;
+            if(count < 0) count=0;
+        }
+        if(checkVowels(str[i+k-1])){
+            count++;
+            maxCount=Math.max(maxCount,count);
+        }
+    };
+    console.log('Opt',maxCount);
+    return maxCount;
+}
+
+
+maxVowelsOpt('abciiidef',3);
+maxVowelsOpt('aeiou',2);
+maxVowelsOpt('leetcode',3);
+maxVowelsOpt('novowels',1);
+maxVowelsOpt('tnfazcwrryitgacaabwm',4);
+
+function sumFourDivisors(arr){
+    let sum=0;
+    for(let i=0;i<arr.length;i++){
+        let {result,resultSum}=divisor(arr[i]);
+        if(result){
+            sum+=resultSum;
+        };
+    }
+    console.log(sum);
+    return sum;
+}
+
+function divisor(el) {
+    if (el <= 1) {
+        return { result: false, resultSum: 0 };
+    }
+
+    let count = 2;              
+    let currSum = 1 + el;
+
+    for (let i = 2; i <= Math.sqrt(el); i++) {
+        if (el % i === 0) {
+            let pair = el / i;
+
+            if (i === pair) {
+                count += 1;
+                currSum += i;
+            } else {
+                count += 2;
+                currSum += i + pair;
+            }
+
+            if (count > 4) {
+                return { result: false, resultSum: 0 };
+            }
+        }
+    }
+
+    return {
+        result: count === 4,
+        resultSum: count === 4 ? currSum : 0
+    };
+}
+
+sumFourDivisors([21,4,7]);
+sumFourDivisors([21,21]);
+sumFourDivisors([1,2,3,4,5]);
+
+function findDifference(arr1, arr2) {
+  let set = new Set();
+  let set1=new Set();
+  let answer=[];
+  arr1.forEach((el) => {
+    set.add(el);
+  });
+  arr2.forEach((el) => {
+   set1.add(el);
+  });
+  let temp=[];
+  arr1.forEach(el=>{
+    if(!set1.has(el)){
+        if(!temp.includes(el))temp.push(el);
+    }
+  });
+  answer.push(temp);
+  temp=[];
+  arr2.forEach(el=>{
+    if(!set.has(el)){
+        if(!temp.includes(el))temp.push(el);
+    }
+  });
+  answer.push(temp);
+
+  console.log(answer);
+  return answer;
+}
+
+findDifference([1,2,3],[2,4,6]);
+findDifference([1,2,3,3],[1,1,2,2]);
+
+
+var uniqueOccurrences = function(arr) {
+    let map=new Map();
+    arr.forEach((el)=>{
+        map.set(el,(map.get(el)|| 0)+1);
+    });
+    let result=[...map.values()];
+    let set=new Set();
+
+    for(let i=0;i<result.length;i++){
+        if(set.has(result[i])){
+            console.log('uniques',false);
+            return false;
+        }
+        set.add(result[i]);
+    }
+    console.log('uniques',true);
+    return true
+};
+
+uniqueOccurrences([1,2,2,1,1,3]);
+uniqueOccurrences([1,2]);
+uniqueOccurrences([-3,0,1,-3,1,1,1,-3,10,0]);
+
+function closeStrings(str1,str2){
+    if(str1.length!==str2.length){
+        console.log('closeStrings',false);
+        return false;
+    }
+    let map1=new Map();
+    let map2=new Map();
+
+    str1.split('').forEach(el=>{
+        map1.set(el,(map1.get(el) || 0)+1);
+    });
+    str2.split('').forEach(el=>{
+        map2.set(el,(map2.get(el) || 0)+1);
+    });
+
+    for (let ch of map1.keys()) {
+        if (!map2.has(ch)) {
+            console.log('closeStrings',false);
+            return false;
+        }
+    }
+    
+    let arr1=[...map1.values()].sort((a,b)=>a-b);
+    let arr2=[...map2.values()].sort((a,b)=>a-b);
+
+    for(let i=0;i<arr1.length;i++){
+        if(arr1[i]!==arr2[i]){
+            console.log('closeStrings',false);
+            return false;
+        }
+    }
+    // console.log(arr1,arr2);
+    console.log('closeStrings',true);
+    return true;
+}
+
+
+closeStrings('abc','bca');
+closeStrings('cabbba','abbccc');
+closeStrings('a','aa');
+closeStrings('uau','ssx')
+
+
+// 796. Rotate String
+
+// Given two strings s and goal, return true if and only if s can become goal after some number of shifts on s.
+
+// A shift on s consists of moving the leftmost character of s to the rightmost position.
+
+// For example, if s = "abcde", then it will be "bcdea" after one shift.
+
+function checkrotation(str1,str2){
+    if(str1.length!==str2.length){
+        console.log('rotation',false);
+        return false;
+    }
+    let result=str1;
+    str1=str1.split('');
+    for(let i=0;i<str1.length;i++){
+        let remove=str1.slice(i,i+1);
+        let index=result.split('').indexOf(remove[0]);
+        // console.log(index);
+        result=result.slice(0,index) + result.slice(index+1);
+        result+=remove[0];
+        if(result==str2){
+            console.log('rotation',true);
+            return true;
+        }
+    }
+    console.log('rotation',false);
+    return false;
+}
+
+// optimize way
+
+function checkRotationOpt(str1, str2) {
+    if (str1.length !== str2.length) return false;
+  
+    let rotated = str1;
+  
+    for (let i = 0; i < str1.length; i++) {
+      // rotate left by 1
+      rotated = rotated.slice(1) + rotated[0];
+  
+      if (rotated === str2) {
+        return true;
+      }
+    }
+  
+    return false;
+  }
+  
+
+checkrotation('abcd','cdab');
+checkrotation('abcd','acbd');
+checkrotation('waterbottle','erbottlewat');
+checkrotation('abcd','abc');
+checkrotation('aaab','abaa');
+checkrotation('hello','lohel');
+checkrotation('hello','olelh');
+checkrotation('aaaa','aaaa');
+checkrotation('abcde','eabcd');
+checkrotation('abcde','abced');
+
+function findtwoUnique(arr){
+    let map=new Map();
+    let result=[];
+    for(let i=0;i<arr.length;i++){
+        map.set(arr[i],(map.get(arr[i]) || 0)+1);
+    };
+
+    for(let [key,values] of map){
+        if(map.get(key)==1){
+            result.push(key);
+        }
+    };
+    console.log(result);
+    return result;
+}
+
+findtwoUnique([1,2,1,3,2,5]);
+
+
+// isomorphic means 
+// e.g. paper, title
+// so one letter from first word is map to first letter from second word.
+// no one letter map to two different letter.
+// so p->t a->i p->t e->L r->e
+function isomorphic(str1,str2){
+    if(str1.length!==str2.length){
+        console.log('isomorphic',false);
+        return false;
+    }
+    let map = new Map();
+    let map2=new Map();
+    for (let i = 0; i < str1.length; i++) {
+        if(map.get(str1[i])!==undefined && map.get(str1[i]) !== str2[i]) {
+            console.log("isomorphic", false);
+            return false;
+        }
+        if(map2.get(str2[i])!==undefined && map2.get(str2[i]) !==str1[i]){
+            console.log("isomorphic", false);
+            return false;
+        }
+        map.set(str1[i],str2[i]);
+        map2.set(str2[i],str1[i]);
+    }
+   console.log("isomorphic", true);
+   return true;
+}
+
+isomorphic('paper','title');
+isomorphic('egg','add');
+isomorphic('foo','bar');
+isomorphic('ab','aa');
+isomorphic('bbbaaaba','aaabbbba');
+isomorphic('badc','baba');

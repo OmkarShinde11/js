@@ -2,10 +2,10 @@
 // You are given an array nums of n integers and two integers k and x.
 
 // The x-sum of an array is calculated by the following procedure:
+// Calculate the sum of the resulting array.
 
 // Count the occurrences of all elements in the array.
 // Keep only the occurrences of the top x most frequent elements. If two elements have the same number of occurrences, the element with the bigger value is considered more frequent.
-// Calculate the sum of the resulting array.
 // Note that if an array has less than x distinct elements, its x-sum is the sum of the array.
 
 // Return an integer array answer of length n - k + 1 where answer[i] is the x-sum of the subarray nums[i..i + k - 1].
@@ -405,7 +405,7 @@ minSubArrayLenOpt([1,2,3,4,5],11);
 
 // 340. Longest Substring with At Most K Distinct Characters
 // Given a string s and an integer k, return the length of the longest substring of s that contains at most k distinct characters.
-
+// IMP
 function longestSubstringK(str,k){
     let maxLength=0;
     for(let i=0;i<str.length;i++){
@@ -435,6 +435,7 @@ function longestSubstringKOpt(str,t){
     let end=0;
     let maxLength=0;
     for(let i=end;i<str.length;i++){
+        // this line come before while because new element is add which change map size to greater than k then while loop should execute to change the map size
         map.set(str[i],(map.get(str[i])||0)+1)
         while(map.size > t){
             map.set(str[start],map.get(str[start])-1);
@@ -514,6 +515,68 @@ totalFruitOpt([1,2,1]);
 totalFruitOpt([1,2,3,2,2]);
 totalFruitOpt([0]);
 totalFruitOpt([0,0,1,1]);
+
+// 1456. Maximum Number of Vowels in a Substring of Given Length
+function maxVowels(str,k){
+    str=str.split('');
+    let maxCount=0
+    for(let i=0;i<str.length;i++){
+        let count=0
+        if(checkVowels(str[i])){
+            count++;
+            maxCount=Math.max(maxCount,count);
+        };
+        for(let j=i+1;j<=i+(k-1);j++){
+            if(checkVowels(str[j])){
+                count++;
+                maxCount=Math.max(maxCount,count);
+            }
+        };
+    };
+    console.log(maxCount);
+    return maxCount;
+};
+
+function checkVowels(str){
+    return 'aeiou'.includes(str);
+}
+
+maxVowels('abciiidef',3);
+maxVowels('aeiou',2);
+maxVowels('leetcode',3);
+
+function maxVowelsOpt(str,k){
+    str=str.split('');
+    let count=0;
+    let maxCount=0;
+    for(let i=0;i<k;i++){
+        if(checkVowels(str[i])){
+            count++;
+        };
+    }
+    maxCount=Math.max(maxCount,count);
+
+    for(let i=1;i<str.length;i++){
+        if(str[i+k-1]==undefined)break;
+        if(checkVowels(str[i-1])){
+            count--;
+            if(count < 0) count=0;
+        }
+        if(checkVowels(str[i+k-1])){
+            count++;
+            maxCount=Math.max(maxCount,count);
+        }
+    };
+    console.log('Opt',maxCount);
+    return maxCount;
+}
+
+
+maxVowelsOpt('abciiidef',3);
+maxVowelsOpt('aeiou',2);
+maxVowelsOpt('leetcode',3);
+maxVowelsOpt('novowels',1);
+maxVowelsOpt('tnfazcwrryitgacaabwm',4);
 
 // 1248. Count Number of Nice Subarrays
 // Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
@@ -700,7 +763,7 @@ function longestSubarray(arr){
             if(arr[start]==0)zeroCount--;
             start++;
         }
-        max=Math.max(max,end-start);
+        max=Math.max(max,end-start); // here we do end-start because here we find longest subarray not length
     }
     console.log(max);
     return max;
@@ -878,3 +941,59 @@ function longestSubarraySumLength(arr,k){
     return maxLength;
 }
 longestSubarraySumLength([2,5,1,7,10],14);
+
+
+// find indexs of subarray whoose sum is equal to t.
+function targetSumIndex(arr,t){
+    for(let i=0;i<arr.length;i++){
+        let sum=0
+        for(let j=i;j<arr.length;j++){
+            sum+=arr[j];
+            if(sum==t){
+                console.log('Indexs',i,j);
+                return i,j;
+            }
+        }
+    };
+    return false;
+};
+
+targetSumIndex([1,2,3,7,5],12);
+
+function targetSumIndexOpt(arr,t){
+    let sum=0;
+    let start=0;
+    for(let end=0;end<arr.length;end++){
+        sum+=arr[end];
+        while(sum > t){
+            sum-=arr[start];
+            start++;
+        };
+        if(sum==t){
+            console.log('Indexes',start,end)
+            return start,end;
+        }
+    };
+    return false;
+}
+targetSumIndexOpt([1,2,3,7,5],12);
+targetSumIndexOpt([1,2,3,5,7],12);
+
+// next greater Element
+function nextGreaterElement(arr){
+    let result=[];
+    for(let i=0;i<arr.length;i++){
+        let check=false;
+        for(let j=i+1;j<arr.length;j++){
+            if(arr[j]>arr[i]){
+                check=true;
+                result.push(arr[j]);
+                break;
+            }
+        };
+        if(!check)result.push(-1);
+    };
+    console.log(result);
+    return result
+}
+nextGreaterElement([6,8,0,1,3])

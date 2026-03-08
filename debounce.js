@@ -23,7 +23,26 @@ function debounceFunction(fn, delay) {
 
 let debounce = debounceFunction(getApiCall, 300);
 
+// throtlling:
 
+function throtlling(){
+    console.log('Hii');
+}
+
+function betterThrottling(functionCall,delay){
+    let flag=true;
+    return function(){
+        if(flag){
+            functionCall();
+            flag=false;
+            setTimeout(()=>{
+                flag=true
+            },delay)
+        }
+    }
+}
+
+let throttle=betterThrottling(throtlling,5000);
 
 // Currying
 let sum=function(x){
