@@ -1,9 +1,9 @@
 // 1st e.g.
-// console.log('begins');
-// setTimeout(() => {
-//     console.log(2);
-// },0);
-// Promise.resolve().then(()=>{console.log(3)}).then(()=>{console.log(4)});
+console.log('begins');
+setTimeout(() => {
+    console.log(2);
+},1000);
+Promise.resolve().then(()=>{console.log(3)}).then(()=>{console.log(4)});
 
 //2nd e.g.
 console.log('begins');

@@ -840,9 +840,136 @@ countSubstringsWithAtMostKDistinctOpt('abc',2);
 countSubstringsWithAtMostKDistinctOpt('aaaa',1);
 countSubstringsWithAtMostKDistinctOpt('aabac',2);
 
+function countGoodSubstrings(str){
+    let set=new Set();
+    let count=0;
+    for(let i=0;i<str.length;i++){
+        set.add(str[i]);
+        for(let j=i+1;j<str.length;j++){
+            if(set.has(str[j]))break;
+            set.add(str[j]);
+            if(j==i+2){
+                if(set.size===3){
+                    count++;
+                    break;
+                }else{
+                    break;
+                }
+            }
+        };
+        set=new Set();
+    };
+    console.log('countGoodSubstring',count);
+    return count;
+}
+countGoodSubstrings('xyzzaz');
+countGoodSubstrings('aababcabc');
+
+function countGoodSubstringsOpt(str){
+    let map=new Map();
+    let k=3;
+    let count=0
+    for(let i=0;i<k;i++){
+        map.set(str[i],(map.get(str[i]) || 0)+1);
+    };
+    if(map.size==3)count++;
+
+    for(let i=1;i<str.length;i++){
+        if(str[i+k-1]===undefined)break;
+        map.set(str[i-1],map.get(str[i-1])-1);
+        if(map.get(str[i-1])==0){
+            map.delete(str[i-1]);
+        }
+        map.set(str[i+k-1],(map.get(str[i+k-1])|| 0)+1);
+        if(map.size==3)count++;
+    }
+    console.log('countGoodSubstringsOpt',count);
+    return count;
+}
+countGoodSubstringsOpt('xyzzaz');
+countGoodSubstringsOpt('aababcabc');
+
+function divisorSubstrings(num,k){
+    let str=num.toString();
+    let result='';
+    let count=0;
+    for(let i=0;i<k;i++){
+        result+=str[i];
+    };
+    let val=Number(result);
+    if(val!==0 && num % val === 0) count++;
+    for(let i=1;i<str.length;i++){
+        if(str[i+k-1]==undefined)break;
+        result=result.slice(1);
+        result+=str[i+k-1];
+        val=Number(result);
+        if(val!==0 && num % val === 0) count++;
+    }
+    console.log('divisorSubString',count);
+    return count;
+}
+
+divisorSubstrings(240,2);
+divisorSubstrings(430043,2);
+
+function countKConstraintSubstrings(str,k){
+    let count=0;
+    for(let i=0;i<str.length;i++){
+        let zeroCount=0;
+        let oneCount=0;
+        if(str[i]=='1')oneCount++;
+        else zeroCount++;
+        if(oneCount <= k || zeroCount <= k){
+            count++;
+        }
+        for(let j=i+1;j<str.length;j++){
+            if(str[j]=='1')oneCount++;
+            else{
+                zeroCount++;
+            }
+            if(oneCount <= k || zeroCount <= k){
+                count++;
+            }else{
+                break;
+            }
+        }
+    }
+    console.log('K-Constraints',count);
+    return count;
+}
+
+countKConstraintSubstrings('10101',1);
+countKConstraintSubstrings('1010101',2);
+countKConstraintSubstrings('11111',1);
+
+function countKConstraintSubstringsOpt(str,k){
+    let zeroCount=0;
+    let oneCount=0;
+    let count=0;
+    let start=0
+    for(let end=0;end<str.length;end++){
+        if(str[end]=='1')oneCount++;
+        else zeroCount++;
+        while(zeroCount > k && oneCount > k){
+            if(str[start]=='1')oneCount--
+            else{
+                zeroCount--;
+            }
+            start++;
+        };
+        count+=end-start+1;
+    };
+    console.log('K-ConstraintsOpt',count);
+    return count;
+}
+
+countKConstraintSubstringsOpt('10101',1);
+countKConstraintSubstringsOpt('1010101',2);
+countKConstraintSubstringsOpt('11111',1);
+
 
 // sliding window leetcode question
-// Easy
+// Easy 
 
 // Maximum Sum Subarray of Size K
 // LeetCode 643
@@ -997,3 +1124,27 @@ function nextGreaterElement(arr){
     return result
 }
 nextGreaterElement([6,8,0,1,3])
+
+
+function maxSum(arr){
+    let sum=0;
+    let start=0;
+    let maxSum=-Infinity;
+
+    for(let end=0;end<arr.length;end++){
+        while(sum < 0){
+            sum-=arr[start];
+            start++;
+        }
+        sum+=arr[end];
+        maxSum=Math.max(maxSum,sum);
+    };
+
+    console.log(maxSum);
+    return maxSum;
+}
+
+maxSum([-2,1,-3,4,-1,2,1,-5,4])
+maxSum([5,4,-1,7,8]);
+maxSum([1]);
+maxSum([-1]);

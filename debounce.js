@@ -19,11 +19,13 @@ function debounceFunction(fn, delay) {
     };
 }
 
+
 // Create a debounced function
 
-let debounce = debounceFunction(getApiCall, 300);
+// let debounce = debounceFunction(getApiCall, 300);
 
 // throtlling:
+// Throttling ensures a function executes at most once in a fixed time interval regardless of how many times the event fires.
 
 function throtlling(){
     console.log('Hii');
@@ -43,17 +45,18 @@ function betterThrottling(functionCall,delay){
 }
 
 let throttle=betterThrottling(throtlling,5000);
+throttle();
 
 // Currying
-let sum=function(x){
-    return function(y){
-        if(y){
-            return sum(x+y);
-        }
-        return x;
-    }
-}
-console.log(sum(1)(2)(3)(4)(5)(6)());
+// let sum=function(x){
+//     return function(y){
+//         if(y){
+//             return sum(x+y);
+//         }
+//         return x;
+//     }
+// }
+// console.log(sum(1)(2)(3)(4)(5)(6)());
 
 // strp by step execute;
 // initial call sum(1) which return the inner function which is

@@ -121,3 +121,21 @@ async function doWork(batch){
     return batchResult;
 }
 doWork(batch);
+
+
+// setInterval(()=>{
+//     console.log('Omkar');
+// },2000);
+
+function ownInterval(delay){
+    function run(){
+        console.log('Omkar');
+        setTimeout(() => {
+            run();
+        }, delay);
+    };
+    setTimeout(()=>{
+        run();
+    },delay);
+};
+ownInterval(2000);

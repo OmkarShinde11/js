@@ -878,3 +878,336 @@ function flatternArray(arr,result=[]){
     console.log(result);
 }
 flatternArray(arr);
+
+// function mySetInterval(callBack,delay){
+//     function run (){
+//         callBack();
+//         setTimeout(run,delay);
+//     };
+//     setTimeout(run,delay);
+// };
+
+// mySetInterval(()=>console.log('Hello'),2000);
+
+function compress(arr){
+    let map=new Map();
+    arr.forEach((el)=>{
+        map.set(el,(map.get(el)|| 0 )+1);
+    });
+    console.log(map);
+    let result=[];
+    for(let [key,value] of map){
+        if(map.get(key)==1){
+            result.push(key);
+        }else{
+            result.push(key,value);
+        }
+    };
+    console.log('compress',result);
+    arr=result;
+    console.log(arr.join('').length);
+    return arr.join('').length;
+    
+}
+compress(["a","a","b","b","c","c","c"]);
+compress(['a']);
+compress(["a","b","b","b","b","b","b","b","b","b","b","b","b"]);
+
+
+
+
+function compressInPlace(arr) {
+    let index = 0;
+    let count = 1;
+    for (let i = 1; i <= arr.length; i++) {
+        if (arr[i] === arr[i - 1]) {
+            count++;
+        } else {
+            arr[index++] = arr[i - 1];
+
+            if (count > 1) {
+                let str = count.toString();
+                for (let ch of str) {
+                    arr[index++] = ch;
+                }
+            }
+            count = 1;
+        }
+    }
+    return index;
+    // let index = 0; // write pointer
+    // let i = 0;     // read pointer
+
+    // while (i < chars.length) {
+    //     let char = chars[i];
+    //     let count = 0;
+
+    //     // count same characters
+    //     while (i < chars.length && chars[i] === char) {
+    //         i++;
+    //         count++;
+    //     }
+
+    //     // write character
+    //     chars[index++] = char;
+
+    //     // write count if > 1
+    //     if (count > 1) {
+    //         let str = count.toString();
+    //         for (let ch of str) {
+    //             chars[index++] = ch;
+    //         }
+    //     }
+    // }
+    // console.log(index);
+    // return index;
+}
+
+compressInPlace(["a","a","b","b","c","c","c"])
+
+function countBinarySubstrings(str){
+    let count=0;
+    for(let i=0;i<str.length;i++){
+        let zeroCount=0;
+        let oneCount=0;
+        if(str[i]=='0')zeroCount++;
+        else oneCount++;
+        for(let j=i+1;j<arr.length;j++){
+            if(str[j]=='0')zeroCount++;
+            else oneCount++;
+            if(zeroCount!==0 && oneCount!==0){
+                if(oneCount > zeroCount)break;
+            }
+            if(zeroCount==oneCount)count++;
+        }
+    };
+    console.log('binaryString',count);
+    return count;
+}
+
+countBinarySubstrings('00110011');
+countBinarySubstrings('10101');
+
+function intersect(nums1,nums2){
+    let map = {};
+  let result = [];
+
+  for (let num of nums1) {
+    map[num] = (map[num] || 0) + 1;
+  }
+
+  for (let num of nums2) {
+    if (map[num] > 0) {
+      result.push(num);
+      map[num]--; 
+    }
+  }
+  console.log(result)
+  return result;
+}
+
+intersect([1,2,2,1],[2,2]);
+intersect([4,9,5],[9, 4, 9, 8, 4])
+
+function reversePrefix(str,k){
+    // if(k==1) return str;
+    // let remaining=str.slice(k);
+    // let append=str.slice(0,k);
+    // append=append.split('').reverse().join('');
+    // console.log('reversePrefix',append+remaining);
+    // return append+remaining;
+
+     if(k==1) return str;
+    let remaining=str.slice(k);
+    let append=str.slice(0,k);
+    append=append.split('');
+    let start=0;
+    let end=append.length-1;
+    while(end > start){
+        let temp=append[start];
+        append[start]=append[end];
+        append[end]=temp
+        start++;
+        end--;
+    };
+    console.log('reversePrefix',append.join('') + remaining);
+    return append.join('') + remaining;
+}
+reversePrefix('abcd',2);
+
+function firstMatchingIndex(str){
+    if(str.length==1) return 0;
+    let start=0;
+    let end=str.length-1;
+    let n=str.length;
+
+    while(end >= start){
+        let temp=(n-start)-1;
+        if(str[start]==str[temp]){
+            console.log('firstMatchingIndex',start);
+            return start
+        }
+        end--;
+        start++;
+    };
+
+    console.log('firstMatchingIndex',-1);
+    return -1
+}
+
+firstMatchingIndex('abcacbd');
+firstMatchingIndex('abcdab');
+firstMatchingIndex('abc');
+firstMatchingIndex('glg');
+
+function reversePrefix(str,ch){
+    if(!str.includes(ch)){
+        console.log(str);
+        return str;
+    };
+    let index=str.indexOf(ch);
+    let start=0;
+    str=str.split('');
+    while(index > start){
+        let temp=str[start];
+        str[start]=str[index];
+        str[index]=temp;
+        index--;
+        start++;
+    };
+    console.log(str.join(''));
+    return str.join('');
+}
+
+reversePrefix('abcdefd','d');
+reversePrefix('xyxzxe','z');
+reversePrefix('abcd','z');
+
+function checkIfExist(arr){
+    // for(let i=0;i<arr.length;i++){
+    //     for(let j=i+1;j<arr.length;j++){
+    //         if(i>=0 && i!=j){
+    //             if(j < arr.length){
+    //                 if(arr[i] == 2 * arr[j] || arr[j] == 2 * arr[i]){
+    //                     console.log(i,j);
+    //                     console.log(true);
+    //                     return true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
+    // console.log(false);
+    // return false;
+
+    // Using Hash set
+    let set=new Set();
+    for(let i=0;i<arr.length;i++){
+        if(set.has(2*arr[i])){
+            console.log(true);
+            return true;
+        }
+        if(arr[i]%2==0){
+            if(set.has(arr[i] / 2)){
+                console.log(true);
+                return true
+            }
+        }
+        set.add(arr[i]);
+    }
+    console.log(false);
+    return false;
+}
+
+checkIfExist([10,2,5,3]);
+checkIfExist([3,1,7,11]);
+checkIfExist([7,1,14,11]);
+
+function countBinarySubstrings(str){
+    let prev = 0;
+    let curr = 1;
+    let count = 0;
+
+    for (let i = 1; i < str.length; i++) {
+        if (str[i] === str[i - 1]) {
+            curr++;
+        } else {
+            count += Math.min(prev, curr);
+            prev = curr;
+            curr = 1;
+        }
+    }
+
+    count += Math.min(prev, curr);
+    console.log(count);
+    return count;
+}
+
+countBinarySubstrings('00110011');
+countBinarySubstrings('10101');
+countBinarySubstrings('00110');
+countBinarySubstrings('0010011');
+
+function findTheDistanceValue(arr1,arr2,d){
+    let count=0;
+    for(let i=0;i<arr1.length;i++){
+        let found=false;
+        for(let j=0;j<arr2.length;j++){
+            let abs=Math.abs(arr1[i]-arr2[j]);
+            if(abs <= d){
+                found=true;
+                break;
+            }
+        };
+        if(!found){
+            count++;
+        }
+    };
+    console.log('DistanceValue',count);
+    return count;
+}
+
+findTheDistanceValue([4,5,8],[10,9,1,8],2);
+findTheDistanceValue([1,4,2,3],[-4,-3,6,10,20,30],3);
+findTheDistanceValue([2,1,100,3],[-5,-2,10,-3,7],6);
+
+function rotateByK(arr,k){
+    // let result=new Array(arr.length);
+    // // console.log(result);
+    // for(let i=0;i<arr.length;i++){
+    //     let index=(i+k)%arr.length;
+    //     result[index]=arr[i];
+    // };
+    // console.log('rotateByK',result);
+    // return result;
+    k=k % arr.length;
+    if(arr.length===1) return arr;
+    arr=arr.reverse();
+    let start=0;
+    let end=k-1;
+    while(end > start){
+        let temp=arr[start];
+        arr[start]=arr[end];
+        arr[end]=temp;
+        end--;
+        start++;
+    };
+
+    start=k;
+    end=arr.length-1;
+    while(end > start){
+        let temp=arr[start];
+        arr[start]=arr[end];
+        arr[end]=temp;
+        end--;
+        start++;
+    };
+
+    console.log(arr);
+    return arr;
+}
+rotateByK([1,2,3,4,5],3);
+rotateByK([1,2,3,4,5,6,7],3);
+rotateByK([-1,-100,3,99],2);
+rotateByK([-1],2);
+rotateByK([1,2],7);

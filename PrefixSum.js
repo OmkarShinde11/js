@@ -747,3 +747,126 @@ function minStartValueOpt(arr){
 minStartValueOpt([-3,2,-3,4,2])
 minStartValueOpt([1,2]);
 minStartValueOpt([1,-2,-3])
+
+
+// 3707. Equal Score Substrings
+function scoreBalance(str){
+    let current=0;
+    for(let i=0;i<str.length;i++){
+        current+=str.charCodeAt(i)-96;
+        let innerSum=0;
+        for(let j=i+1;j<str.length;j++){
+            innerSum+=str.charCodeAt(j)-96;
+            if(current == innerSum && j==str.length-1){
+                console.log('scoreBalance',true);
+                return true;
+            }
+            if(innerSum > current){
+                break;
+            }
+        }
+    };
+    console.log('scoreBalance',false);
+    return false;
+}
+
+scoreBalance('adcb');
+scoreBalance('bace');
+
+// 3432. Count Partitions with Even Sum Difference
+function countPartitions(arr){
+    let partitions=0;
+    let current=0;
+    for(let i=0;i<arr.length;i++){
+        current+=arr[i];
+        let innerSum=0;
+        for(let j=i+1;j<arr.length;j++){
+            innerSum+=arr[j];
+            let diff=current-innerSum;
+            if(diff%2==0 && j==arr.length-1){
+                partitions++;
+            }
+        }
+    };
+    console.log(partitions);
+    return partitions;
+}
+
+countPartitions([10,10,3,7,6]);
+countPartitions([1,2,2]);
+countPartitions([2,4,6,8]);
+countPartitions([1,1]);
+
+function maxScore(str){
+    let max=-Infinity;
+    let left='';
+    for(let i=0;i<str.length;i++){
+        left+=str[i];
+        let right='';
+        for(let j=i+1;j<str.length;j++){
+            right+=str[j];
+        };
+        if(str[i+1]===undefined)break;
+        let leftCount=left.match(/0/g)?.length || 0;
+        // console.log(leftCount);
+        let rightCount=right.match(/1/g)?.length || 0;
+        // console.log(rightCount);
+        max=Math.max(max,leftCount+rightCount);
+    };
+    console.log('maxScore',max);
+    return max;
+}
+maxScore('011101');
+maxScore('00111');
+maxScore('1111');
+maxScore('00');
+
+function maxScoreOpt(str){
+    let leftCount=0;
+    let rightCount=str.match(/1/g)?.length || 0;
+    let max=-Infinity;
+    
+    for(let i=0;i<str.length-1;i++){
+        if(str[i]==0)leftCount++;
+        else{
+            rightCount--;
+        }
+        let sum=leftCount+rightCount;
+        max=Math.max(max,sum);
+    };
+    console.log('maxScoreOpt',max);
+    return max;
+}
+
+maxScoreOpt('011101');
+maxScoreOpt('00111');
+maxScoreOpt('1111');
+maxScoreOpt('00');
+
+function sumOddLengthSubarrays(arr){
+    let oddArr=[];
+    for(let i=0;i<arr.length;i++){
+        let length=1;
+        oddArr.push(arr[i])
+        for(let j=i+1;j<arr.length;j++){
+            length++;
+            if(length %2 !==0){
+                // oddArr.push(arr[j-1],arr[j]);
+                addArr(oddArr,i,j,arr);
+            }
+        }
+    };
+    console.log(oddArr);
+    let res=oddArr.reduce((acc,curr)=>acc+curr,0);
+    console.log(res);
+    return res;
+}
+
+function addArr(oddArr,start,end,arr){
+    for(let i=start;i<=end;i++){
+        oddArr.push(arr[i]);
+    }
+}
+sumOddLengthSubarrays([1,4,2,5,3]);
+sumOddLengthSubarrays([1,2]);
+sumOddLengthSubarrays([10,11,12]);

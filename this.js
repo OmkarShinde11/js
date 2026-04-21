@@ -2,6 +2,8 @@
 // this keyword works differently in strict mode and non strict mode.
 
 // In global Scope
+// so in strict mode this will print {} r undefined
+// & in non-strict mode it print window object
 console.log(this);  // it reffers to a window object  //Window object can be a different like in node.js it is global in browser it is Window 
 
 // In Function Scope
@@ -95,3 +97,94 @@ obj5.x();
 //  Declaring var name = 'Random'; in a Node.js script does not attach name to global. It creates a local variable within the file (module scope).  The arrow function x inherits this from the module context, where this is an empty object ({}), not global. so we get undefined.
 
 // In Javascript name is reffer to global object which is window so we get name='Random'
+
+
+// let a = {
+//     i: 1,
+//     valueOf() {
+//       return this.i++;
+//     }
+//   };
+  
+//   if (a == 1 && a == 2 && a == 3) {
+//     console.log("True");
+//   }
+
+// Q1
+// const obj1 = {
+//     name: "Omkar",
+//     getName: function () {
+//       return this.name;
+//     }
+//   };
+  
+//   const fn = obj1.getName;
+//   console.log(fn());
+
+// Q2
+const obj_2 = {
+    name: "Omkar",
+    getName: () => {
+      return this.name;
+    }
+  };
+ 
+console.log(obj_2.getName());
+
+// Q3
+// const obj_3 = {
+//     name: "Omkar",
+//     getName() {
+//       function inner() {
+//         console.log(this.name);
+//       }
+//       inner();
+//     }
+//   };
+// obj_3.getName();
+
+// Q4
+const obj_3 = {
+    name: "Omkar",
+    getName() {
+      const inner=() =>{
+        console.log(this.name);
+      }
+      inner();
+    }
+  };
+obj_3.getName();
+
+// Q5
+// const obj_5 = {
+//     name: "Omkar",
+//     greet() {
+//       setTimeout(function () {
+//         console.log(this.name);
+//       }, 1000);
+//     }
+//   };
+  
+//   obj_5.greet();
+
+// Q6
+// const obj_6 = {
+//     name: "Omkar",
+//     greet() {
+//       setTimeout(() =>{
+//         console.log(this.name);
+//       }, 1000);
+//     }
+//   };
+// obj_6.greet();
+
+// Q7 Bind Importance
+const obj_7 = {
+    name: "Virat",
+    greet() {
+      console.log(this.name);
+    }
+  };
+  
+  const fn = obj_7.greet.bind(obj_7);
+  fn(); // Omkar
