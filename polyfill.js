@@ -139,3 +139,22 @@ function ownInterval(delay){
     },delay);
 };
 ownInterval(2000);
+
+// Group By Implementation
+let arr=[
+    {name:'Omkar',age:24},
+    {name:'Sid',age:25},
+    {name:'Rahul',age:28},
+    {name:'Raghav',age:24},
+];
+
+let group=arr.reduce((acc,curr)=>{
+    let key=curr['age'];
+    if(acc[key]){
+        acc[key].push(curr);
+    }else{
+        acc[key]=[curr];
+    };
+    return acc;
+},{});
+console.log(group);

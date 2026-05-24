@@ -1148,3 +1148,78 @@ maxSum([-2,1,-3,4,-1,2,1,-5,4])
 maxSum([5,4,-1,7,8]);
 maxSum([1]);
 maxSum([-1]);
+
+function findAnagramsbru(str,part){
+    let result=[];
+    let map=new Map();
+    part=part.split('');
+    part.forEach(ele=>{
+        map.set(ele,(map.get(ele)|| 0)+1);
+    });
+    // console.log(map);
+    for(let i=0;i<str.length;i++){
+        let windowMap=new Map();
+        let correct=true;
+        if(map.has(str[i])){
+            windowMap.set(str[i],(windowMap.get(str[i])|| 0)+1);
+        }
+        for(let j=i+1;j<=(i+(part.length-1));j++){
+            if(map.has(str[j])){
+                windowMap.set(str[j],(windowMap.get(str[j])|| 0)+1);
+            }
+        }
+        if(windowMap.size==map.size){
+            for(let [key,value] of windowMap){
+                if(windowMap.get(key)!==map.get(key))correct=false;
+            }
+            if(correct)result.push(i);
+        }
+    }
+    console.log('anagram',result);
+    return result;
+}
+
+findAnagramsbru('cbaebabacd','abc');
+findAnagramsbru('abab','ab');
+findAnagramsbru('baa','aa'); // failed case
+
+// Index Of Subarray Sum
+function subArraySumIndex(arr,t){
+    let start=0;
+    let sum=0;
+    for(let end=0;end<arr.length;end++){
+        sum+=arr[end];
+        while(sum > t){
+            sum-=arr[start];
+            start++;
+        };
+        if(sum==t){
+            console.log([start,end]);
+            return;
+        }
+    };
+};
+
+subArraySumIndex([1,2,3,7,5],12);
+
+// 930. Binary Subarrays With Sum
+function numSubarraysWithSum(arr,t){
+    console.log('numSubarraysWithSum',atMostBinaryK(arr,t)-atMostBinaryK(arr,t-1));
+}
+
+function atMostBinaryK(arr,k){
+    if(k < 0)return 0
+    let sum=0;
+    let i=0;
+    let count=0
+    for(let j=0;j<arr.length;j++){
+        sum+=arr[j];
+        while(sum > k){
+            sum-=arr[i];
+            i++;
+        };
+        count+=j-i+1;
+    };
+    // console.log(count);
+    return count;
+}

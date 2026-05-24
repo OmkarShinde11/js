@@ -249,7 +249,7 @@ function merge(arr,low,mid,high){
     return arr;
 }
 
-console.log(mergeSort([3,2,4,1,3],0,4));
+console.log('merge',mergeSort([3,2,4,1,3],0,4));
 
 function partionIndex(arr,low,high){
     let pivot=arr[low];

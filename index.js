@@ -675,10 +675,6 @@
 // }
 // checkPrime([97, 98, 99, 100, 101, 103]);
 
-
-
-
-
 function plusOne(digits){
     for (let i = digits.length - 1; i >= 0; i--) {
         if (digits[i] < 9) {
@@ -1282,4 +1278,877 @@ function convertObj(arr){
     return obj;
 };
 convertObj(["a","b","c"])
+function removeOccurrences(str,part){
+    while(str.includes(part)){
+        str=remove(str,part);
+    };
+    console.log(str);
+    return str;
+}
 
+function remove(str,part){
+    return str.replace(part,'');
+}
+
+removeOccurrences('axxxxyyyyb','xy');
+removeOccurrences('daabcbaabcbc','abc');
+removeOccurrences('aabababa','aba');
+
+function removeDuplicates(str){
+    for(let i=1;i<=str.length;i++){
+        if(str[i-1]===str[i]){
+            str=str.split('');
+            str.splice(i-1,2);
+            str=str.join('');
+            if(str=='') return "";
+            return removeDuplicates(str);
+        }else {
+            if(i==str.length-1){
+                return str;
+            }
+        }
+    }
+    return str;
+}
+
+console.log(removeDuplicates('abbaca'));
+console.log(removeDuplicates('azxxzy'));
+console.log(removeDuplicates('aaaaaaaa'));
+console.log(removeDuplicates('aaaaaaaaa'));
+
+function countNoOfSubArr(arr){
+    let count=0;
+    for(let i=0;i<arr.length;i++){
+        count++;
+        for(let j=i+1;j<arr.length;j++){
+            count++;
+        }
+    };
+    console.log(count);
+    return count;
+}
+
+countNoOfSubArr([1,2,3,1,4]);
+
+function countNoOfSubArrOpt(arr){
+    let count=0;
+    let n=arr.length;
+    for(let i=0;i<arr.length;i++){
+        count+=n-i;
+    };
+    console.log(count);
+    return count;
+}
+
+countNoOfSubArrOpt([1,2,3,1,4]);
+
+function findDifference(s,t){
+    let map=new Map();
+    let map2=new Map();
+    for(let i=0;i<s.length;i++){
+        map.set(s[i],(map.get (s[i])||0) + 1);
+    }
+    for(let i=0;i<t.length;i++){
+        map2.set(t[i],(map2.get(t[i])|| 0) + 1);
+    }
+    for(let [key,value] of map2){
+        if(!map.has(key)) return key;
+        if(map.has(key)){
+            if(map.get(key)!==map2.get(key)) return key;
+        }
+    }
+}
+
+console.log(findDifference('a','aa'));
+console.log(findDifference('abcd','abcde'));
+console.log(findDifference('','y'));
+
+function moveZeroes(arr){
+    let i=0;
+    for(let j=0;j<arr.length;j++){
+        if(arr[j]!==0){
+            let temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+            i++;
+        }
+    };
+    console.log(arr);
+    return arr;
+}
+moveZeroes([0,1,0,3,12]);
+moveZeroes([0]);
+
+function addOne(arr){
+    for(let i=arr.length-1;i>=0;i--){
+        if(arr[i]< 9){
+            arr[i]=arr[i]+1;
+            console.log('addOne',arr.join(''));
+            return arr.join('');
+        };
+        arr[i]=0;
+    };
+    console.log('addOne',[1,...arr].join(''));
+    return [1,...arr].join('');
+}
+addOne([1,0,0]);
+addOne([9,9,9]);
+addOne([1,9,9,9]);
+// find max subarray sum whoose length is equal to k
+function maxKSum(arr,k){
+    let maxSum=-Infinity;
+    let sum=0;
+    for(let i=0;i<k;i++){
+        sum+=arr[i];
+    };
+    maxSum=Math.max(maxSum,sum);
+    for(let i=1;i<arr.length;i++){
+        if(arr[i+k-1]===undefined) break;
+        sum+=arr[i+k-1]-arr[i-1];
+        maxSum=Math.max(maxSum,sum);
+    };
+    console.log(sum);
+    return sum
+}
+maxKSum([2,1,5,1,3],3);
+
+// 645. Set Mismatch
+
+var findErrorNums = function(nums) {
+    let map=new Map();
+    let result=new Array(2);
+    nums.forEach(el=>{
+        map.set(el,(map.get(el)||0)+1);
+    });
+    for(let i=1;i<=nums.length;i++){
+        if(map.get(i)==2){
+            result[0]=i;
+        }
+        if(!map.has(i)){
+            result[1]=i
+        }
+    };
+    console.log(result);
+    return result
+};
+
+findErrorNums([2,2]);
+
+// fins size of subarray where equal no of 0 and 1 are there.
+function findSubArraySize(arr){
+    let maxSize=0;
+    for(let i=0;i<arr.length;i++){
+        let zeroCount=0;
+        let oneCount=0;
+        if(arr[i]===0)zeroCount++;
+        else oneCount++;
+        for(let j=i+1;j<arr.length;j++){
+            if(arr[j]===0)zeroCount++;
+            else oneCount++;
+
+            if(zeroCount===oneCount){
+                maxSize=Math.max(maxSize,j-i+1);
+            }
+        }
+    };
+    console.log(maxSize);
+    return maxSize;
+}
+
+findSubArraySize([0,1,0,1,0,0,1]);
+findSubArraySize([0,1,1,1,1,1,0,0,0]);
+findSubArraySize([0,1,0]);
+findSubArraySize([0,1]);
+
+
+// 136. Single Number
+var singleNumber = function(nums) {
+    let xor=nums[0];
+    for(let i=1;i<nums.length;i++){
+        xor^=nums[i];
+    };
+    console.log('SingleNumber',xor);
+    return xor;
+};
+singleNumber([4,1,2,1,2]);
+singleNumber([2,2,1]);
+singleNumber([1]);
+
+// you have an array and you have to split into two subset with equal sum 
+function equalSumSubset(arr){
+    let sum=0;
+    arr.forEach((el)=>{
+        sum+=el;
+    });
+    let targetSum=sum/2;
+    return  helper(arr, 0, 0, targetSum);
+}
+
+function helper(arr, index, currentSum, targetSum) {
+    if (currentSum === targetSum) return true;
+    if (currentSum > targetSum) return false;
+    if (index === arr.length) return false;
+
+    return helper(arr, index + 1, currentSum + arr[index], targetSum) ||
+           helper(arr, index + 1, currentSum, targetSum);
+}
+
+console.log(equalSumSubset([1,5,11,5]));
+
+function findPivotIndex(arr){
+    let leftSum=0;
+    let rightSum=0;
+    for(let i=0;i<arr.length;i++){
+        if(i!=0)leftSum=calcSum(arr,0,i-1);
+        rightSum=calcSum(arr,i+1,arr.length-1);
+        if(leftSum===rightSum){
+            console.log(i);
+            return i;
+        }
+    };
+    console.log(-1);
+    return -1
+}
+
+function calcSum(arr,start,end){
+    let sum=0
+    for(let i=start;i<=end;i++){
+        sum+=arr[i];
+    };
+    return sum;
+}
+
+findPivotIndex([1,7,3,6,5,6]);
+findPivotIndex([2,1,-1]);
+findPivotIndex([1, 2, 3]);
+findPivotIndex([1, 2, 3]);
+findPivotIndex([1, 2, 4]);
+findPivotIndex([5]);
+findPivotIndex([]);
+
+function findUnsortedSubarray(nums){
+    let left = -1, right = -1;
+    
+    // Step 1: Find initial violated range
+    for(let i = 0; i < nums.length - 1; i++){
+        if(nums[i] > nums[i+1]){
+            if(left === -1) left = i;
+            right = i+1;
+        }
+    }
+    
+    if(left === -1) return 0; // already sorted
+    
+    // Step 2: Find min and max in that range
+    let min = Infinity, max = -Infinity;
+    for(let i = left; i <= right; i++){
+        min = Math.min(min, nums[i]);
+        max = Math.max(max, nums[i]);
+    }
+    
+    // Step 3: Expand left
+    while(left > 0 && nums[left-1] > min) left--;
+    
+    // Step 4: Expand right
+    while(right < nums.length-1 && nums[right+1] < max) right++;
+    console.log(right-left+1);
+    return right - left + 1;
+}
+
+findUnsortedSubarray([2,6,4,8,10,9,15]);
+findUnsortedSubarray([1,2,3,4]);
+// findUnsortedSubarray([1]);
+// findUnsortedSubarray([2,1]);
+
+
+//3084. Count Substrings Starting and Ending with Given Character
+function countSubstrings(str,c){
+    let count=0;
+    for(let i=0;i<str.length;i++){
+        if(str[i]===c){
+            count++;
+            for(let j=i+1;j<str.length;j++){
+                if(str[j]===c)count++;
+            }
+        }
+    };
+    console.log('countSubstrings',count);
+    return count;
+}
+
+countSubstrings('abada','a');
+countSubstrings('zzz','z');
+countSubstrings('goxo','q');
+
+function countSubstringsOpt(str,c){
+    let map=new Map();
+    for(let i=0;i<str.length;i++){
+        map.set(str[i],(map.get(str[i])|| 0)+1);
+    }
+    let occ=map.get(c);
+    if(occ==undefined) {
+        console.log('countSubstringsOpt',0)
+        return 0;
+    }
+    console.log('countSubstringsOpt',Math.floor(occ * (occ+1)/2));
+    return Math.floor(occ * (occ+1)/2)
+}
+
+countSubstringsOpt('abada','a');
+countSubstringsOpt('zzz','z');
+countSubstringsOpt('goxo','q');
+
+// 75. Sort Colors
+function sortColors(arr){
+    let map=new Map();
+    arr.forEach(el=>{
+        map.set(el,(map.get(el)|| 0 )+1);
+    });
+    let start=0
+    for(let i=0;i<=2;i++){
+        if(map.has(i)){
+            for(let j=0;j<map.get(i);j++){
+                arr[start++]=i;
+            }
+        }
+    };
+    console.log(arr);
+    return arr;
+};
+
+sortColors([2,0,2,1,1,0]);
+sortColors([2,0,1]);
+// Sort Array 
+// Odd Numbers in desc
+// Event Numbers in Asc
+function sortAscDesc(arr){
+    let start=0;
+    for(let end=0;end<arr.length;end++){
+        if(arr[end]%2!==0){
+            let temp=arr[end];
+            arr[end]=arr[start];
+            arr[start]=temp;
+            start++;
+        }
+    };
+    // console.log(arr,start);
+    // Desc Logic
+    let temp=arr.slice(0,start);
+    // console.log(arr);
+    temp.sort((a,b)=>b-a);
+    // console.log(temp);
+    arr=arr.slice(start);
+    arr=[...temp,...arr];
+
+    // Asc Logic
+    temp=arr.slice(start);
+    temp=temp.sort((a,b)=>a-b);
+    // console.log(temp);
+    arr=arr.slice(0,start);
+    arr=[...arr,...temp];
+    console.log(arr);
+    return arr;
+}
+
+sortAscDesc([1,2,3,5,7,4,10]);
+
+// 2109. Adding Spaces to a String
+function addSpaces(str,arr){
+    // for(let i=0;i<arr.length;i++){
+    //     if(i==0){
+    //         let temp=str.slice(0,arr[i]);
+    //         str=str.slice(arr[i]);
+    //         str=temp + " "+ str;
+    //     }else{
+    //         let temp=str.slice(0,arr[i]+i);
+    //         str=str.slice(arr[i]+i);
+    //         str=temp + " "+ str;
+    //     }
+        
+    // }
+    // console.log(str);
+    // return str;
+
+    const result = [];
+    let spaceIdx = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        if (spaceIdx < arr.length && i === arr[spaceIdx]) {
+            result.push(' ');
+            spaceIdx++; 
+        }
+        result.push(str[i]);
+    }
+    console.log(result.join(''));
+    return result.join('');
+}
+addSpaces('LeetcodeHelpsMeLearn',[8,13,15]);
+addSpaces('icodeinpython',[1,5,7,9]);
+addSpaces('spacing',[0,1,2,3,4,5,6]);
+
+
+// 1913. Maximum Product Difference Between Two Pairs
+// Check First Hint 
+// So for any array, the maximum product of 2 numbers comes from either:
+// The two largest values, or
+// The two smallest (most negative) values
+// So in our case we want 4 value so two big numbers and 2 small numbers.
+function maxProductDifference(arr){
+    arr=arr.sort((a,b)=>a-b);
+    console.log(arr);  
+    console.log((arr[arr.length-1] * arr[arr.length-2])-(arr[0] * arr[1]));        
+    return (arr[arr.length-1] * arr[arr.length-2])-(arr[0] * arr[1])                                                                                                               
+}
+
+maxProductDifference([5,6,2,7,4]);
+
+// 1513. Number of Substrings With Only 1s
+
+function numSub(str){
+    let result=[];
+    const MOD = 1000000007; // this only use when test case is very large means str is very large. check test case 54
+    let count=0
+    str=str.split('');
+    for(let i=0;i<str.length;i++){
+        if(str[i]==0 && count!==0){
+            result.push(count);
+            count=0
+        }
+        if(str[i]==1)count++
+        if(i==str.length-1 && count!==0){
+            result.push(count);
+            count=0
+        }
+    };
+    console.log(result);
+
+    result=result.reduce((acc,curr)=>{
+        return (acc+=curr * (curr +1)/2) %  MOD;
+    },0);
+    console.log('numSub',result);
+    return result;
+}
+numSub('0110111');
+numSub('111111');
+numSub('101');
+
+// 1464. Maximum Product of Two Elements in an Array
+function maxProduct(arr){
+    let firstLargest=-Infinity;
+    let secondLargest=-Infinity;
+    for(let i=0;i<arr.length;i++){
+        if(arr[i] > firstLargest){
+            secondLargest=firstLargest;
+            firstLargest=arr[i];
+        }
+        else if(arr[i] > secondLargest && arr[i] <= firstLargest){
+            secondLargest=arr[i];
+        }
+    };
+    // console.log(firstLargest,secondLargest);
+    console.log((secondLargest-1) * (firstLargest-1));
+    return (secondLargest-1) * (firstLargest-1)
+}
+
+maxProduct([3,4,5,2]);
+maxProduct([1,5,4,5]);
+maxProduct([3,7]);
+
+function maxLengthBetweenEqualCharacters(str){
+    let map=new Map();
+    str=str.split('');
+    for(let i=0;i<str.length;i++){
+        if(map.get(str[i])){
+            map.get(str[i]).push(i);
+        }else{
+            map.set(str[i],[i]);
+        }
+    };
+    // console.log(map);
+
+    let max=-1;
+    for(let [key,value] of map){
+        if(map.get(key).length>1){
+            let values=map.get(key);
+            max=findMax(values,max);
+        }
+    };
+    console.log(max);
+    return max;
+}
+
+function findMax(arr,max){
+    for(let i=0;i<arr.length;i++){
+        for(let j=i+1;j<arr.length;j++){
+            let result=arr[j]-arr[i]-1;
+            max=Math.max(max,result);
+        }
+    };
+    return max;
+}
+
+maxLengthBetweenEqualCharacters('abcdaeghijke');
+maxLengthBetweenEqualCharacters('aa');
+maxLengthBetweenEqualCharacters('abca');
+maxLengthBetweenEqualCharacters('cbzxy');
+maxLengthBetweenEqualCharacters('mgntdygtxrvxjnwksqhxuxtrv');
+
+
+function sortedSquares(nums){
+    // nums=nums.map((el)=>{
+    //     return el**2;
+    // });
+    // nums=nums.sort((a,b)=>a-b);
+    // console.log(nums);
+    // return nums;
+
+    let left=0;
+    let result=new Array(nums.length);
+    let right=nums.length-1;
+    for(let i=result.length-1;i>=0;i--){
+        let leftSquare=nums[left] **2;
+        let rightSquare=nums[right] **2;
+        if(rightSquare > leftSquare){
+            result[i]=rightSquare;
+            right--
+        }else{
+            result[i]=leftSquare;
+            left++;
+        }
+    }
+    console.log(result);
+    return result;
+}
+sortedSquares([-4,-1,0,3,10]);
+
+function closure(){
+    for(var i=0;i<5;i++){
+        x(i);
+        function x(val){
+            setTimeout(() => {
+                console.log(val);
+            }, 1000);
+        };
+    };
+
+    console.log(x);
+    return x;
+}
+
+closure();
+
+function maxEvenOdd(str){
+    let map=new Map();
+    for(let i=0;i<str.length;i++){
+        map.set(str[i],(map.get(str[i])||0 )+1);
+    };
+    console.log(map);
+    let maxOdd=-1;
+    let minEven=Infinity;
+    for(let freq of map.values()){
+        if(freq%2!==0){
+            maxOdd=Math.max(maxOdd,freq);
+        }else{
+            minEven=Math.min(minEven,freq);
+        }
+    };
+    console.log(maxOdd-minEven);
+    return maxOdd-minEven;
+}
+
+maxEvenOdd('aaaaabbc');
+maxEvenOdd('abcabcab');
+maxEvenOdd('zgzaaa');
+maxEvenOdd('mmsmsym');
+
+function decode(str){
+    let result='';
+    let i=0;
+    while(i< str.length){
+        let num=''
+        while(i < str.length && !isNaN(str[i])){
+            num += str[i];
+            i++;
+        }
+        let char = str[i];
+        result += char.repeat(Number(num));
+        i++;
+    };
+    console.log(result);
+    return result;
+}
+decode('3a2b3c');
+decode("1a2b3c"); 
+decode("12a3b");
+
+function reverseVowels(str){
+    let start=0;
+    let end=str.length-1;
+    str=str.split('');
+    while(end > start){
+        if(isVowel(str[end])){
+            if(isVowel(str[start])){
+                let temp=str[start];
+                str[start]=str[end];
+                str[end]=temp;
+                start++;
+                end--;
+            }else{
+                start++;
+            }
+        }else{
+            end--;
+        }
+    };
+    console.log('reverseVowel',str.join(''));
+    return str.join('');
+};
+
+function isVowel(str){
+    return 'aeiouAEIOU'.includes(str);
+}
+reverseVowels('IceCreAm');
+reverseVowels('leetcode');
+
+function findMaxAverage(arr,k){
+    let maxAvg=-Infinity;
+    let sum=0;
+    for(let i=0;i<k;i++){
+        sum+=arr[i];
+    };
+    let avg=sum/k;
+    maxAvg=Math.max(maxAvg,avg);
+
+    for(let i=1;i<arr.length-1;i++){
+        if(arr[i+k-1]==undefined)break;
+        sum+=arr[i+k-1]-arr[i-1];
+        avg=sum/k;
+        maxAvg=Math.max(maxAvg,avg);
+    };
+    console.log(maxAvg.toFixed(5));
+    return maxAvg;
+}
+
+findMaxAverage([1,12,-5,-6,50,3],4);
+findMaxAverage([5],1);
+
+function lengthOfLongestSubstring(str){
+    let i=0;
+    let set=new Set();
+    let max=-1;
+    for(let j=0;j<str.length;j++){
+        while(set.has(str[j])){
+            set.delete(str[i]);
+            i++;
+        };
+        set.add(str[j]);
+        max=Math.max(max,set.size);
+    };
+    console.log('lengthOfLongestSubstring',max);
+    return max;
+}
+
+lengthOfLongestSubstring('abcabcbb');
+
+function minSubArrayLen(arr,t){
+    let i=0;
+    let min=Infinity;
+    let sum=0;
+    for(let j=0;j<arr.length;j++){
+        sum+=arr[j];
+        while(sum >= t){
+            min=Math.min(min,j-i+1);
+            sum-=arr[i];
+            i++;
+        }
+    };
+    console.log('minSubArrayLen',sum);
+    return sum;
+}
+
+minSubArrayLen([2,3,1,2,4,3],7);
+
+function numSubarraysWithSum(arr,t){
+    console.log('numSubarraysWithSum',atMostK(arr,t)-atMostK(arr,t-1));
+}
+
+function atMostK(arr,k){
+    if(k < 0)return 0
+    let sum=0;
+    let i=0;
+    let count=0
+    for(let j=0;j<arr.length;j++){
+        sum+=arr[j];
+        while(sum > k){
+            sum-=arr[i];
+            i++;
+        };
+        count+=j-i+1;
+    };
+    // console.log(count);
+    return count;
+}
+
+numSubarraysWithSum([1,0,1,0,1],2);
+
+function subarraysWithKDistinct(arr,k){
+    console.log('subarraysWithKDistinct',atMostKDistinct(arr,k)-atMostKDistinct(arr,k-1));
+    return atMostKDistinct(arr,k)-atMostKDistinct(arr,k-1)
+}
+
+function atMostKDistinct(arr,k){
+    let map=new Map();
+    let i=0;
+    let count=0;
+    for(let j=0;j<arr.length;j++){
+        map.set(arr[j],(map.get(arr[j])||0)+1);
+        while(map.size > k){
+            map.set(arr[i],map.get(arr[i])-1);
+            if(map.get(arr[i])==0)map.delete(arr[i]);
+            i++;
+        };
+        count+=j-i+1;
+    };
+    // console.log(count);
+    return count;
+}
+
+subarraysWithKDistinct([1,2,1,2,3],2);
+
+function mergeOpt(arr1,m,arr2,n){
+    let p=m+n-1;
+    let left=m-1;
+    let right=n-1;
+
+    while(right >=0){
+        if(right >=0 && arr2[right] > arr1[left]){
+            arr1[p]=arr2[right];
+            right--;
+        }else{
+            arr1[p]=arr1[left];
+            left--;
+        };
+        p--;
+    };
+    console.log(arr1);
+    return arr1;
+}
+
+mergeOpt([1,2,3,0,0,0],3,[2,5,6],3);
+
+function moveZeroes(arr){
+    let i=0;
+    for(let j=0;j<arr.length;j++){
+        if(arr[j]!==0){
+            let temp=arr[j];
+            arr[j]=arr[i];
+            arr[i]=temp;
+            i++;
+        };
+    };
+    console.log(arr);
+    return arr;
+}
+
+moveZeroes([0,1,0,3,12])
+
+function maxSumSubArray(arr){
+    let max=arr[0];
+    let curr=arr[0];
+    for(let i=1;i<arr.length;i++){
+        let temp=curr+arr[i];
+        curr=Math.max(temp,arr[i]);
+        max=Math.max(max,curr);
+    };
+    console.log(max);
+    return max;
+}
+
+maxSumSubArray([10,-5,5]);
+
+function minSumSubArray(arr){
+    let min=arr[0];
+    let curr=arr[0];
+    for(let i=1;i<arr.length;i++){
+        let temp=curr+arr[i];
+        curr=Math.min(temp,arr[i]);
+        min=Math.min(min,curr);
+    };
+    console.log(min);
+    return min
+}
+
+minSumSubArray([10,-5,5]);
+
+// IMP
+function deepClone(obj) {
+    // handle null, primitives (string, number, boolean)
+    if (obj === null || typeof obj !== 'object') return obj;
+  
+    // handle arrays
+    if (Array.isArray(obj)) return obj.map(item => deepClone(item));
+  
+    // handle objects
+    const clone = {};
+    for (let key in obj) {
+      clone[key] = deepClone(obj[key]); // recursively clone each value
+    }
+    return clone;
+}
+const obj = { a: 1, fn:()=>{console.log('Hii')}, b: { c: 2 } ,d:[1,2,3]};
+const clone = deepClone(obj);
+clone.b.c = 99;
+console.log(obj.b.c);    // 2  ✅ original not affected
+console.log(clone.b.c);  // 99
+console.log('clone',clone);
+
+const obj1={
+    name:'Omkar',
+    fn:()=>{console.log('Hii')},
+    address:{location:'Pune'},
+};
+
+console.log(JSON.parse(JSON.stringify(obj1)));
+
+function largestGoodInteger(str){
+    let result=[];
+    for(let i=0;i<str.length;i++){
+        let count=1;
+        for(let j=i+1;j<str.length;j++){
+            if(str[j]===str[i]){
+                count++;
+                if(count==3){
+                    result.push(str[i]);
+                    i+=2;
+                    break;
+                }
+            }else{
+                break;
+            }
+        }
+    }
+    console.log(result);
+    if(result.length==0){
+        console.log("largestGoodInteger","")
+        return ""
+    }
+    else if(result.length==1){
+        str=result[0].repeat(3);
+        console.log("largestGoodInteger",str);
+        return str;
+    }else{
+        result=result.sort((a,b)=>b-a);
+        str=result[0].repeat(3);
+        console.log("largestGoodInteger",str);
+        return str;
+    }
+}
+
+largestGoodInteger('6777133339');
+largestGoodInteger('2300019');
+largestGoodInteger('42352338');
+
+function appendCharacters(str,t){
+    
+}
+appendCharacters('coaching','coding');

@@ -24,7 +24,7 @@ console.log('internal',info3());
 // here bind Polyfill.
 
 Function.prototype.myBind=function(...args){
-    let obj=this;
+    let obj=this;//IMP
     return function(){
         let option=args.slice(1);
         return obj.apply(args[0],option);
@@ -36,3 +36,20 @@ console.log('own',info4());
 // let arr=['cdskdwc','dadasd','dwdeeds'];
 // let option=arr.slice(1);
 // console.log(option);
+
+
+async function test() {
+    await new Promise((resolve,reject)=>{
+      [1, 2, 3].forEach(async (i) => {
+      await new Promise(resolve => {
+        setTimeout(() => {
+          console.log(i);
+          resolve();
+        }, 1000);
+      });
+    });
+    })
+    console.log("Done");
+  }
+  
+  test();

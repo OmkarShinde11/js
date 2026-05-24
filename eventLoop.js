@@ -1,30 +1,30 @@
 // 1st e.g.
-console.log('begins');
-setTimeout(() => {
-    console.log(2);
-},1000);
-Promise.resolve().then(()=>{console.log(3)}).then(()=>{console.log(4)});
+// console.log('begins');
+// setTimeout(() => {
+//     console.log(2);
+// },1000);
+// Promise.resolve().then(()=>{console.log(3)}).then(()=>{console.log(4)});
 
 //2nd e.g.
-console.log('begins');
-setTimeout(() => {   
-    console.log('setTimeout 1');
-    Promise.resolve().then(()=>{  
-        console.log('Promise 1')
-    })
-},0);
-new Promise((resolve,reject)=>{
-    console.log('Promise 2');
-    setTimeout(()=>{
-        console.log('settimeout2');
-        resolve("resolve 1")   
-    },0)
-}).then((res)=>{
-    console.log('dot then 1'); 
-    setTimeout(() => {
-        console.log(res);
-    }, 0);
-})
+// console.log('begins');
+// setTimeout(() => {   
+//     console.log('setTimeout 1');
+//     Promise.resolve().then(()=>{  
+//         console.log('Promise 1')
+//     })
+// },0);
+// new Promise((resolve,reject)=>{
+//     console.log('Promise 2');
+//     setTimeout(()=>{
+//         console.log('settimeout2');
+//         resolve("resolve 1")   
+//     },0)
+// }).then((res)=>{
+//     console.log('dot then 1'); 
+//     setTimeout(() => {
+//         console.log(res);
+//     }, 0);
+// })
 // Explaining Output:
 // here first begins and promise 2 are print because they placed directly in callstack
 // and when memory execution phase rest of code place in callback so settimeout occur first will print settimeout1 and then one promise resolve which place in micotask and it excute & print promise 1
@@ -39,32 +39,32 @@ new Promise((resolve,reject)=>{
 // resolve1
 
 // 3rd E.g.
-// async function async1() {
-//     console.log("async1 start");
-//     await async2();
-//     console.log("async1 end");// microtask.
-//   }
+async function async1() {
+    console.log("async1 start");
+    await async2();
+    console.log("async1 end");// microtask.
+  }
   
-//   async function async2() {
-//     console.log("async2");
-//   }
+  async function async2() {
+    console.log("async2");
+  }
   
-//   console.log("script start");
+  console.log("script start");
   
-//   setTimeout(function () {
-//     console.log("setTimeout");  // callback
-//   }, 0);
+  setTimeout(function () {
+    console.log("setTimeout");  // callback
+  }, 0);
   
-//   async1(); // fn call
+  async1(); // fn call
   
-//   new Promise(function (resolve) {
-//     console.log("promise1");
-//     resolve();
-//   }).then(function () { // microtask
-//     console.log("promise2");
-//   });
+  new Promise(function (resolve) {
+    console.log("promise1");
+    resolve();
+  }).then(function () { // microtask
+    console.log("promise2");
+  });
   
-//   console.log("script end");
+  console.log("script end");
 // output explanation: in code execution first it print script start
 //  then there is one fn call async1 so it print async 1 start
 // then in async1 async2 call with await so in async2 it print async 2

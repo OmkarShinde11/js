@@ -43,6 +43,7 @@ This continues until the entire tree is checked.
 
 
 what is Pure and impure pipes?
+ng g pipe <Pipe-Name>
 Pure Pipes:
 A pure pipe executes only when the input value or reference changes (by reference, not by content).
 Angular caches the previous output, so it avoids re-running the pipe if the same input is passed again.
@@ -73,6 +74,7 @@ export class ImpureExamplePipe implements PipeTransform {
   }
 }
 
+<!-- IMP -->
 How do you optimize performance in Angular applications?
 1.Lazy Loading Modules
 2.Use Pure Pipes Instead of Methods in Templates
@@ -179,6 +181,7 @@ Output in DOM:
 <h2>Welcome, {{ user.name }}</h2>
 <button (click)="logout()">Logout</button>
 
+<!-- IMP -->
 ng-content: Similar like Component Composition in React
 In Simple Words:ng-content acts as a placeholder in child component and projected data from parent component
 
@@ -206,6 +209,7 @@ How do you manage state between multiple components (without NgRx)?
 So take scenario one userlist api which is use in multiple component
 So at service level i use obj or map to store an api data unitil some time and if that time is over then it fetch from api again and stroe in map or object.
 
+<!-- IMP -->
 What is Subject and BehaviourSubject?
 Subject:A Subject which like an event emitter instead of emit it use next
 It does not store the current value — new subscribers won’t receive previous values, only future emissions.
@@ -216,6 +220,8 @@ subject.next(1);
 subject.next(2);
 subject.subscribe(value => console.log('Subscriber A:', value));
 subject.next(3);
+
+<!-- O/P:3 -->
 
 BehaviorSubject:
 A BehaviorSubject is like a Subject but it holds one current value (the latest emitted value).
@@ -228,7 +234,9 @@ behaviorSubject.next(1);
 behaviorSubject.next(2);
 behaviorSubject.subscribe(value => console.log('Subscriber B:', value));
 behaviorSubject.next(3);
+<!-- O/P:2,3 -->
 
+<!-- IMP -->
 InterCeptor.service.ts
 it normally intercept a request 
 Common Use Case: Adding a auth token
@@ -284,7 +292,7 @@ export class AuthGuard implements CanActivate {
   }
 }
 
-
+<!-- IMP -->
 Directive:
 ng g d directive-name
 import { Directive, ElementRef, Renderer2, HostListener, Input, OnInit } from '@angular/core';
@@ -436,6 +444,7 @@ What is the use of subscribe()?
 To listen to observable values. It has 3 callbacks:
 next, error, complete.
 
+<!-- IMP -->
 <!-- RXJS OPERATORS. -->
 1.switchMap:
 Use case avoid api calles while switching tabs
@@ -452,17 +461,19 @@ component.ts
 private fetchTrigger$ = new Subject<any>(); // this is because we have to use switchMap and pipe.
 
  constructor(private mapService: MapService) {
-    this.fetchTrigger$.pipe( // pipe is used for chaining multiple observable.
-      switchMap(data => this.mapService.fetchMapData(data))
-      catchError(err=>{
+    this.fetchTrigger$.pipe(
+  switchMap(data =>
+    this.mapService.fetchData(data).pipe(  // catchError scoped to inner observable
+      catchError(err => {
         console.log(err);
         this.spinner.hide();
-        return null;
+        return of(null);
       })
-    ).subscribe(response => {
-      this.data = response;
-    });
-  }
+    )
+  )
+).subscribe(response => {
+  this.data = response;
+});
 
 onTabChange(data: any) {
     // emit new tab request
@@ -598,3 +609,29 @@ storeRecipe=createEffect(()=>
        ),
        {dispatch:false}
     )
+
+
+Sample Syntax
+Reducer
+const RandomReducer=createReducer(
+  initialState,
+  on(<Action_Name>,(state,action)=>{});
+);
+
+Action:
+const random=createAction('[random-action]',props());
+
+Effect:
+export class RandomEffect{
+  random=createEffect(
+    ()=>{
+      this.actions$.pipe(
+        ofType(<Action-Name>),
+        <Your-Logic>
+      )
+    }
+  )
+}
+
+What is the Angular Ivy compiler and what benefits does it bring?
+Ivy is Angular's rendering engine since v9. Benefits: smaller bundle sizes (tree-shaking), faster compilation, better debugging, locality (components compiled independently), and improved type checking in templates.

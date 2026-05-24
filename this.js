@@ -2,7 +2,7 @@
 // this keyword works differently in strict mode and non strict mode.
 
 // In global Scope
-// so in strict mode this will print {} r undefined
+// so in strict mode this will print {} undefined
 // & in non-strict mode it print window object
 console.log(this);  // it reffers to a window object  //Window object can be a different like in node.js it is global in browser it is Window 
 
@@ -131,12 +131,14 @@ const obj_2 = {
  
 console.log(obj_2.getName());
 
+
+// Question No 3 & 4 depends on Call Of Function.
 // Q3
 // const obj_3 = {
 //     name: "Omkar",
 //     getName() {
 //       function inner() {
-//         console.log(this.name);
+//         console.log('Q3',this.name);
 //       }
 //       inner();
 //     }
@@ -144,28 +146,29 @@ console.log(obj_2.getName());
 // obj_3.getName();
 
 // Q4
-const obj_3 = {
-    name: "Omkar",
-    getName() {
-      const inner=() =>{
-        console.log(this.name);
-      }
-      inner();
-    }
-  };
-obj_3.getName();
-
-// Q5
-// const obj_5 = {
+// const obj_3 = {
 //     name: "Omkar",
-//     greet() {
-//       setTimeout(function () {
+//     getName() {
+//       const inner=() =>{
 //         console.log(this.name);
-//       }, 1000);
+//       }
+//       inner();
 //     }
 //   };
+// obj_3.getName();
+
+// Q5 and Q6 based on function call.
+// Q5
+const obj_5 = {
+    name: "Omkar",
+    greet() {
+      setTimeout(function () {
+        console.log(this.name);
+      }, 1000);
+    }
+  };
   
-//   obj_5.greet();
+  obj_5.greet();
 
 // Q6
 // const obj_6 = {
@@ -179,12 +182,12 @@ obj_3.getName();
 // obj_6.greet();
 
 // Q7 Bind Importance
-const obj_7 = {
-    name: "Virat",
-    greet() {
-      console.log(this.name);
-    }
-  };
+// const obj_7 = {
+//     name: "Virat",
+//     greet() {
+//       console.log(this.name);
+//     }
+//   };
   
-  const fn = obj_7.greet.bind(obj_7);
-  fn(); // Omkar
+//   const fn = obj_7.greet.bind(obj_7);
+//   fn(); // Omkar

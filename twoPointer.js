@@ -24,8 +24,8 @@ function twoSumOpt(arr,t){
         if(sum > t) right--;
         else if(sum < t) left++;
         else{
-            console.log('OPT',[left+1,right+1]);
-            return [left+1,right+1];
+            console.log('OPT',[left,right]);
+            return [left,right];
         }
     }
 }
@@ -473,7 +473,7 @@ function duplicateZeros(arr){
         if(arr[i]==0){
             arr.splice(i+1,0,0);
             arr.pop();
-            i++;
+            i++; // beacuse here we add one zero so during iteration we dont want to consider again.
         };
     };
     console.log('occ of zero',arr);
@@ -871,8 +871,8 @@ function flatternArray(arr,result=[]){
         if(Array.isArray(arr[i])){
             flatternArray(arr[i],result);
         }else{
-            // result.push(arr[i])
-            result=result.concat(arr[i])
+            result.push(arr[i])
+            // result=result.concat(arr[i])
         }
     };
     console.log(result);
@@ -1172,39 +1172,39 @@ findTheDistanceValue([1,4,2,3],[-4,-3,6,10,20,30],3);
 findTheDistanceValue([2,1,100,3],[-5,-2,10,-3,7],6);
 
 function rotateByK(arr,k){
-    // let result=new Array(arr.length);
-    // // console.log(result);
-    // for(let i=0;i<arr.length;i++){
-    //     let index=(i+k)%arr.length;
-    //     result[index]=arr[i];
+    let result=new Array(arr.length);
+    // console.log(result);
+    for(let i=0;i<arr.length;i++){
+        let index=(i+k)%arr.length;
+        result[index]=arr[i];
+    };
+    console.log('rotateByK',result);
+    return result;
+    // k=k % arr.length;
+    // if(arr.length===1) return arr;
+    // arr=arr.reverse();
+    // let start=0;
+    // let end=k-1;
+    // while(end > start){
+    //     let temp=arr[start];
+    //     arr[start]=arr[end];
+    //     arr[end]=temp;
+    //     end--;
+    //     start++;
     // };
-    // console.log('rotateByK',result);
-    // return result;
-    k=k % arr.length;
-    if(arr.length===1) return arr;
-    arr=arr.reverse();
-    let start=0;
-    let end=k-1;
-    while(end > start){
-        let temp=arr[start];
-        arr[start]=arr[end];
-        arr[end]=temp;
-        end--;
-        start++;
-    };
 
-    start=k;
-    end=arr.length-1;
-    while(end > start){
-        let temp=arr[start];
-        arr[start]=arr[end];
-        arr[end]=temp;
-        end--;
-        start++;
-    };
+    // start=k;
+    // end=arr.length-1;
+    // while(end > start){
+    //     let temp=arr[start];
+    //     arr[start]=arr[end];
+    //     arr[end]=temp;
+    //     end--;
+    //     start++;
+    // };
 
-    console.log(arr);
-    return arr;
+    // console.log(arr);
+    // return arr;
 }
 rotateByK([1,2,3,4,5],3);
 rotateByK([1,2,3,4,5,6,7],3);

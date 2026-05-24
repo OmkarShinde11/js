@@ -210,7 +210,7 @@ function thirdLowest(arr){
 thirdLowest(highestArr);
 thirdLowest([12,56,78,43,5,7]);
 
-// Array where start number is greater then from that number all number are small
+// Array where start number is greater than from that number all number are small
 function leaderArrayEle(arr){
     let leaderArr=[];
     let check=true;
