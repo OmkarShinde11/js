@@ -635,3 +635,68 @@ export class RandomEffect{
 
 What is the Angular Ivy compiler and what benefits does it bring?
 Ivy is Angular's rendering engine since v9. Benefits: smaller bundle sizes (tree-shaking), faster compilation, better debugging, locality (components compiled independently), and improved type checking in templates.
+
+
+Angular Signals
+
+Q1. What is a Signal in Angular?
+A Signal is a reactive primitive that holds a value and notifies consumers automatically when that value changes.
+
+Q2. How do you create, read, and update a Signal?
+const count = signal(0);   // create
+count();                    // read
+count.set(10);              // update (direct)
+count.update(v => v + 1);  // update (based on previous)
+
+Q3. What is the difference between set() and update()?
+count.set(10);             // set fixed value directly
+count.update(v => v + 1); // update based on current value
+
+
+Q4. What is computed() in Signals?
+const price = signal(100);
+const tax = signal(18);
+
+const total = computed(() => price() + tax()); 
+// auto updates when price or tax changes
+
+Q5. What is effect() in Signals?
+effect(() => {
+  console.log('Value changed:', count());
+  // runs automatically when count() changes
+});
+
+Q8. What is input() and how is it different from @Input()?
+// @Input - not reactive
+@Input() name: string = '';
+
+// input() - reactive signal, works with computed/effect
+name = input<string>('');
+name = input.required<string>(); // compile-time required check
+
+Q9. Can you use effect() inside a constructor? Why?
+Yes, effect() must be called inside an injection context like constructor
+constructor() {
+  effect(() => {
+    console.log(this.count()); // ✅ correct place
+  });
+}
+
+Q12. How do Signals improve performance over Zone.js?
+With Zone.js, Angular checks the entire component tree on every change.
+With Signals, Angular knows exactly which part of the template changed and only re-renders that — fine-grained reactivity.
+
+Q14. How do you use Signals with ngOnDestroy / cleanup in effect()?
+constructor() {
+  effect((onCleanup) => {
+    const timer = setInterval(() => console.log(count()), 1000);
+
+    onCleanup(() => {
+      clearInterval(timer); // cleanup when effect re-runs or destroyed
+    });
+  });
+}
+
+Why use Standalone Components over Normal Components?
+
+Standalone components remove the need for NgModule entirely. Instead of declaring a component in a module and managing imports there, everything is self-contained in the component itself using the imports array directly in the @Component decorator. This reduces boilerplate, makes the code more readable, simplifies testing, enables direct lazy loading using loadComponent instead of loadChildren, and results in better tree shaking which means smaller bundle size. From Angular 17+, standalone is the default approach and the recommended way to build Angular applications.

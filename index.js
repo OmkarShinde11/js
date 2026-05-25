@@ -2148,7 +2148,100 @@ largestGoodInteger('6777133339');
 largestGoodInteger('2300019');
 largestGoodInteger('42352338');
 
+// 2486. Append Characters to String to Make Subsequence
 function appendCharacters(str,t){
-    
+    let start=0;
+    let end=0;
+    let n=t.length;
+    for(let i=0;i<str.length;i++){
+        if(str[start]==t[end]){
+            start++;
+            end++;
+        }else{
+            start++;
+        }
+    };
+    console.log('appendChar',n-end);
+    return n-start;
 }
 appendCharacters('coaching','coding');
+appendCharacters('abcde','a');
+appendCharacters('z','abcde');
+appendCharacters('zbc','abc');
+
+// 2390. Removing Stars From a String
+function removeStars(str){
+    while(str.includes('*')){
+        let index=str.indexOf('*');
+        str=removeStarsStr(str,index,index-1);
+    };
+    console.log(str);
+    return str;
+}
+
+function removeStarsStr(str,index,left){
+    str=str.split('');
+    str.splice(index,1);
+    str.splice(left,1);
+    // console.log(str.join(''));
+    return str.join('');
+}
+
+removeStars('leet**cod*e');
+removeStars('erase*****');
+
+// 3392. Count Subarrays of Length Three With a Condition
+function countSubarrays(arr){
+    let count=0
+    for(let i=0;i<arr.length;i++){
+        for(let j=i+1;j<arr.length;j++){
+            let half=arr[j]/2;
+            if(arr[i]+arr[j+1]==half){
+                count++;
+            };
+            break;
+        }
+    };
+    console.log('countSubarrays',count);
+    return count;
+}
+
+countSubarrays([1,2,1,4,1]);
+countSubarrays([1,1,1]);
+countSubarrays([0,0,0,0]);
+
+function countSubarraysOpt(arr){
+    let count=0;
+    let k=3;
+    let half=arr[1] /2;
+    if(arr[0]+arr[2]===half)count++;
+
+    for(let i=1;i<arr.length;i++){
+        if(arr[i+k-1]===undefined) break;
+        let half=arr[i+1]/2;
+        if(arr[i]+arr[i+2]==half)count++;
+    };
+    console.log('countSubarraysOpt',count);
+    return count
+}
+countSubarraysOpt([1,2,1,4,1]);
+countSubarraysOpt([1,1,1]);
+countSubarraysOpt([0,0,0,0]);
+
+// 905. Sort Array By Parity
+function sortArrayByParity(arr){
+    let i=0;
+    for(let j=0;j<arr.length;j++){
+        if(arr[j]%2==0){
+            let temp=arr[j];
+            arr[j]=arr[i];
+            arr[i]=temp;
+            i++;
+        }
+    };
+    console.log('sortArrayByParity',arr);
+    return arr;
+}
+
+sortArrayByParity([3,1,2,4]);
+sortArrayByParity([0]);
