@@ -74,7 +74,7 @@ export class ImpureExamplePipe implements PipeTransform {
   }
 }
 
-<!-- IMP -->
+<!-- VIMP -->
 How do you optimize performance in Angular applications?
 1.Lazy Loading Modules
 2.Use Pure Pipes Instead of Methods in Templates
@@ -235,6 +235,16 @@ behaviorSubject.next(2);
 behaviorSubject.subscribe(value => console.log('Subscriber B:', value));
 behaviorSubject.next(3);
 <!-- O/P:2,3 -->
+
+<!-- IMP -->
+// Subject — no memory, so here subscribe first then emit so you get latest Value
+const subject = new Subject<number>();
+
+// BehaviorSubject — remembers LAST 1 value, here subscribe later also done so it store current and last 1 value
+const subject = new BehaviorSubject<number>(0);  // needs initial value
+
+// ReplaySubject — remembers ALL past values,here subscribe later also done so it store current and last all values
+const subject = new ReplaySubject<number>();
 
 <!-- IMP -->
 InterCeptor.service.ts
@@ -587,7 +597,7 @@ How Use this store in component
 constructor(private store:Store<fromApp.AppState>);
 
 if you get a data from store then use 
-this.stroe.select('store-name');
+this.store.select('store-name');
 
 If you want to update a state
 this.store.dispatch('Action-name'(data))

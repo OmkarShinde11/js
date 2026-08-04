@@ -76,5 +76,3 @@ throttle();
 // now inner function call with 3 and according to code in an inner function if y is true then we call sum(x+y) which is 6 so again sum(3) is called. which again give an inner function  and process continue until we ge as a() arrgument 
 
 // in blank arrgument the condition is not true and we give a all over addition result.
-
-

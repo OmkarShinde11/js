@@ -722,6 +722,7 @@ reverseVowels('IceCreAm');
 reverseVowels('leetcode');
 reverseVowels("Euston saw I was not Sue.")
 
+//151. Reverse Words in a String
 function reverseWords(str){
     str=str.split(" ");
     let arr=[];
@@ -2245,3 +2246,477 @@ function sortArrayByParity(arr){
 
 sortArrayByParity([3,1,2,4]);
 sortArrayByParity([0]);
+
+
+function apiCall(){
+    return new Promise((resolve,reject)=>{
+        resolve('Omkar');
+    })
+};
+
+function handle(){
+    console.log('Start');
+   setTimeout(async ()=>{
+        let val=await apiCall();
+        console.log(val);
+   },0)
+    console.log('end');
+};
+
+handle()
+
+// 1704. Determine if String Halves Are Alike
+function halvesAreAlike(str){
+    let n=str.length/2;
+    let str1=str.slice(0,n);
+    let str2=str.slice(n);
+    
+    let first=0;
+    let second=0;
+
+    for(let i=0;i<str1.length;i++){
+        if(isContainsVowel(str1[i])){
+            first++;
+        }
+    }
+
+    for(let i=0;i<str2.length;i++){
+        if(isContainsVowel(str2[i])){
+            second++;
+        }
+    };
+    console.log(first===second);
+    return first===second;
+}
+
+function isContainsVowel(str){
+   return 'aeiouAEIOU'.includes(str);
+}
+
+halvesAreAlike('book');
+halvesAreAlike('textbook');
+
+//455. Assign Cookies
+function findContentChildren(greed,size){
+    greed=greed.sort((a,b)=>a-b);
+    size=size.sort((a,b)=>a-b);
+    let i=0;
+    for(let j=0;j<size.length;j++){
+        if(i < greed.length && size[j] >= greed[i]){
+            i++;
+        }
+    };
+
+    console.log('findContentChildren',i);
+    return i;
+}
+
+findContentChildren([1,2,3],[1,1]);
+findContentChildren([1,2],[1,2,3]);
+findContentChildren([10,9,8,7],[5,6,7,8]);
+
+function checkIfPangram(sentence){
+    let map=new Map();
+    for(let i=0;i<sentence.length;i++){
+        map.set(sentence[i],(map.get(sentence[i])||0)+1)
+    };
+    // console.log(map.size);
+    console.log(map.size==26);
+    return map.size==26;
+};
+checkIfPangram('thequickbrownfoxjumpsoverthelazydog');
+
+// 34. Find First and Last Position of Element in Sorted Array
+var searchRange = function(nums, target) {
+    let start=-1;
+    let end=-1;
+    for(let i=0;i<nums.length;i++){
+        if(nums[i]==target && start==-1){
+            start=i;
+        }
+        if(nums[i]==target && start!==-1)end=i;
+    };
+    console.log([start,end]);
+    return [start,end]
+};
+searchRange([5,7,7,8,8,10],8);
+
+function getCommon(nums1,nums2){
+    // let result=Infinity;
+    // nums1.forEach((el)=>{
+    //     if(nums2.includes(el)){
+    //         result=Math.min(result,el);
+    //     }
+    // });
+    // console.log('getCommon',result);
+    // if(result==Infinity) return -1;
+    // return result;
+
+    let set1=new Set();
+    let result=[];
+    nums1.forEach((el)=>{
+        if(!set1.has(el))set1.add(el);
+    });
+    nums2.forEach((el)=>{
+        if(set1.has(el))result.push(el);
+        // if(!set1.has(el))set1.add(el);
+    });
+
+    if(result.length==0) return -1;
+    return Math.min(...result);
+}
+
+console.log('getCommon',getCommon([1,2,3],[2,4]));
+console.log('getCommon',getCommon([1,2,3,6],[2,3,4,5]));
+console.log('getCommon',getCommon([1000000000,1000000000],[1000000000]));
+console.log('getCommon',getCommon([1,1,2],[2,4]));
+console.log('getCommon',getCommon([12,16,24,24,25,27,31,37,38,41,43,50,57,70,71,71,74,76,77,78],[5,5,9,11,12,17,20,34,36,51,61,68,70,79,85,87,88,90,91,97]));
+
+// 1662. Check If Two String Arrays are Equivalent
+function arrayStringsAreEqual(arr1,arr2){
+    return arr1.join('')==arr2.join('');
+}
+console.log('concat',arrayStringsAreEqual(["ab", "c"],["a", "bc"]));
+console.log('concat',arrayStringsAreEqual(["abc", "d", "defg"], ["abcddefg"]));
+console.log('concat',arrayStringsAreEqual(["a", "cb"],["ab", "c"]));
+
+// 3340. Check Balanced String
+
+var isBalanced = function(num) {
+    let evenSum=0;
+    let oddSum=0;
+    num=num.split('');
+    for(let i=0;i<num.length;i++){
+        if(i%2==0){
+            evenSum+=Number(num[i]);
+        }else{
+            oddSum+=Number(num[i]);
+        }
+    };
+    console.log(evenSum===oddSum);
+    return evenSum===oddSum;
+};
+isBalanced('24123');
+
+// 238. Product of Array Except Self
+
+var productExceptSelf = function(nums) {
+    let totalPrd=nums.reduce((acc,curr)=>{
+        acc*=curr
+        return acc;
+    },1);
+
+    let result=nums.map((el)=>totalPrd/el);
+    console.log(result);
+    return result;
+};
+productExceptSelf([1,2,3,4]);
+
+function findDistinctInK(arr,k){
+    let map=new Map();
+    let result=[];
+    for(let i=0;i<k;i++){
+        map.set(arr[i],(map.get(arr[i])|| 0 )+1);
+    };
+    result.push(map.size);
+
+    for(let i=1;i<arr.length;i++){
+        if(arr[i+k-1]==undefined)break;
+        map.set(arr[i-1],map.get(arr[i-1])-1);
+        if(map.get(arr[i-1])==0)map.delete(arr[i-1]);
+        map.set(arr[i+k-1],(map.get(arr[i+k-1]) || 0)+1);
+        result.push(map.size);
+    };
+    console.log('findDistinctInK',result);
+    return result;
+}
+
+findDistinctInK([1,2,1,3,4,2,3],4);
+findDistinctInK([1,2,4,4],2);
+
+function findLonely(arr){
+    let result=[];
+    let map=new Map();
+    arr.forEach(el=>{
+        map.set(el,(map.get(el)|| 0)+1);
+    });
+    for(let i=0;i<arr.length;i++){
+        if(!map.has(arr[i]-1) && !map.has(arr[i]+1) && map.get(arr[i]) <=1) result.push(arr[i]);
+    };
+    console.log(result);
+    return result;
+}
+
+findLonely([10,6,5,8]);
+findLonely([1,3,5,3]);
+
+
+// 2785. Sort Vowels in a String
+
+function sortVowels(str){
+    let vowel=[];
+    for(let i=0;i<str.length;i++){
+        if(isVowel(str[i])){
+            vowel.push({word:str[i],Ascii:str.charCodeAt(i)});
+        }
+    };
+
+    vowel=vowel.sort((a,b)=>{
+        return a.Ascii-b.Ascii;
+    });
+    console.log(vowel);
+
+    let result=str;
+    result=result.split('');
+    let count=0;
+    for(let i=0;i<str.length;i++){
+        if(isVowel(str[i])){
+            result[i]=vowel[count].word;
+            count++;
+        }
+        else{
+            result[i]=str[i];
+        }
+    };
+    console.log('sortVowel',result.join(''));
+    return result.join('');
+}
+
+function isVowel(str){
+    return 'aeiouAEIOU'.includes(str);
+}
+
+sortVowels('lEetcOde');
+sortVowels('lYmpH');
+
+
+// 1347. Minimum Number of Steps to Make Two Strings Anagram
+function minSteps(s,t){
+    let map=new Map();
+    for(let i=0;i<s.length;i++){
+        map.set(s[i],(map.get(s[i]) || 0)+1);
+    };
+    console.log(map);
+
+    let count=0;
+    for(let i=0;i<t.length;i++){
+        if(map.get(t[i]) >0){
+            map.set(t[i],map.get(t[i])-1);
+        }else{
+            count++;
+        }
+    };
+    console.log('min',count);
+    return count;
+}
+
+minSteps('bab','aba');
+minSteps('leetcode','practice');
+minSteps('anagram','mangaar');
+
+
+function lengthOfLastWord(str){
+    str=str.split(" ");
+    for(let i=str.length-1;i>=0;i--){
+        if(str[i]!==""){
+            console.log('lastWordLength',str[i].length);
+            return str[i].length;
+        }
+    }
+}
+lengthOfLastWord("   fly me   to   the moon  ");
+lengthOfLastWord("Hello World");
+lengthOfLastWord("luffy is still joyboy");
+
+function checkIfAnaGram(str1,str2){
+    if(str1.length!==str2.length)return false;
+    let map=new Map();
+    for(let i=0;i<str1.length;i++){
+        map.set(str1[i],(map.get(str1[i]) || 0)+1);
+    };
+    for(let i=0;i<str2.length;i++){
+        if(!map.has(str2[i])){
+            console.log('ana',false);
+            return false;
+        }
+        map.set(str2[i],map.get(str2[i])-1);
+    };
+    console.log('ana',true);
+    return true;
+}
+
+checkIfAnaGram('listen','silent');
+checkIfAnaGram("triangle", "integral");
+checkIfAnaGram("apple", "papel");
+checkIfAnaGram("rat", "car");
+
+// 392. Is Subsequence
+
+function isSubsequence(str1,str2){
+    str1=str1.split('');
+    str2=str2.split('');
+    let left=0;
+    for(let i=0;i<str2.length;i++){
+        if(str1[left]==str2[i]){
+            left++;
+        };
+    };
+    console.log('subSequence',left==str1.length);
+    return left==str1.length;
+}
+
+isSubsequence('abc','ahbgdc');
+isSubsequence('axc','ahbgdc');
+
+
+// 633. Sum of Square Numbers
+function judgeSquareSum(c){
+    let left = 0;
+    let right = Math.floor(Math.sqrt(c));
+
+    while (left <= right) {
+        let sum = left * left + right * right;
+
+        if (sum === c) return true;
+
+        if (sum < c) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return false;
+};
+
+console.log('sum',judgeSquareSum(5));
+console.log('sum',judgeSquareSum(73));
+console.log('sum',judgeSquareSum(3));
+
+function maxSubArray(arr){
+    let max=-Infinity;
+    let sum=0
+    let start=0;
+    for(let i=0;i<arr.length;i++){
+        while(sum < 0){
+            sum-=arr[start];
+            start++;
+        };
+        sum+=arr[i];
+        max=Math.max(max,sum);
+    }
+    console.log(max);
+    return max;
+}
+
+maxSubArray([-2,1,-3,4,-1,2,1,-5,4]);
+
+
+function plusOneOPT(arr){
+    arr=arr.toString().split('');
+    for(let i=arr.length-1;i>=0;i--){
+        if(arr[i] < '9'){
+            let no=Number(arr[i])+1;
+            no=no.toString();
+            arr[i]=no;
+            console.log(Number(arr.join('')));
+            return Number(arr.join(''));
+        }else{
+            arr[i]='0';
+        }
+    };
+     console.log('1'+ arr.join(''));
+    return '1' +arr.join('');
+}
+plusOneOPT(999);
+
+function isIsomorphic(str1,str2){
+    if(str1.length!==str2.length){
+        console.log('isomorphic',false);
+        return false;
+    }
+    let map = new Map();
+    let map2=new Map();
+    for (let i = 0; i < str1.length; i++) {
+        if(map.get(str1[i])!==undefined && map.get(str1[i]) !== str2[i]) {
+            console.log("isomorphic", false);
+            return false;
+        }
+        if(map2.get(str2[i])!==undefined && map2.get(str2[i]) !==str1[i]){
+            console.log("isomorphic", false);
+            return false;
+        }
+        map.set(str1[i],str2[i]);
+        map2.set(str2[i],str1[i]);
+    }
+   console.log("isomorphic", true);
+   return true;
+}
+
+console.log(isIsomorphic('paper','title'));
+console.log(isIsomorphic('egg','add'));
+console.log(isIsomorphic('f11','b23'));
+console.log(isIsomorphic('bbbaaaba','aaabbbba'));
+
+function longestCommonPrefix(arr){
+    let result='';
+    let find=arr[0].split('');
+    let temp='';
+    for(let i=0;i<find.length;i++){
+        temp+=find[i];
+        for(let j=0;j<arr.length;j++){
+            if(!arr[j].startsWith(temp)){
+                console.log('longestCommonPrefix',result);
+                return result;
+            }
+        };
+        result=temp;
+    };
+    console.log('longestCommonPrefix',result);
+    return result;
+}
+
+longestCommonPrefix(["flower","flow","flight"]);
+longestCommonPrefix(["dog","racecar","car"])
+
+
+function determineStr(str){
+    str=str.split('');
+    for(let i=0;i<str.length;i++){
+        if(isStr(str[i])) return false;
+    }
+    return true;
+}
+
+console.log(determineStr('3545sdbjdvefi55'));
+
+function isStr(str){
+    return '0123456789'.includes(str);
+}
+
+function pivotArray(arr,p){
+    let list1=[];
+    for(let i=0;i<arr.length;i++){
+        if(arr[i] < p){
+            list1.push(arr[i]);
+        }
+    };
+    let list2=[];
+    for(let i=0;i<arr.length;i++){
+        if(arr[i] > p){
+            list2.push(arr[i]);
+        }
+    };
+    console.log(list1,list2);
+    let list3=[];
+    for(let i=0;i<arr.length;i++){
+        if(arr[i] == p){
+            list3.push(arr[i]);
+        }
+    };
+    console.log([...list1,...list3,...list2]);
+    return [...list1,...list3,...list2];
+}
+
+pivotArray([9,12,5,10,14,3,10],10);
+pivotArray([-3,4,3,2],2);

@@ -1,3 +1,33 @@
+What is Lifted State up in React
+lifted state up in react means in parent component there is one method which pass as props to child and on child we have to call that as props and then in parent the function execute.
+
+what is code spliting in React.js
+Code Splitting is the process of breaking a large JavaScript bundle into smaller chunks that can be loaded only when needed.
+Without code splitting, React bundles the entire application into one large JavaScript file.
+e,g.
+app.js (3 MB)
+├── Home
+├── About
+├── Dashboard
+├── Admin
+├── Profile
+└── Settings
+
+If user page Home it download a whole 3 MB File
+
+With Code Splitting
+The application is split into multiple chunks.
+app.js
+
+├── Home.js
+├── About.js
+├── Dashboard.js
+├── Admin.js
+└── Profile.js
+
+If user go to Profile then prfile download.
+This reduces the initial load time.
+
 What is Virtual DOM and how React uses it for rendering optimization?
 -The Virtual DOM (VDOM) is a lightweight, in-memory representation (a JavaScript object) of the real DOM.
 -You can think of it as a copy of the real DOM, but it’s faster to manipulate because it doesn’t directly interact with the browser.
@@ -18,8 +48,12 @@ If something changed → re-render
 This helps improve performance by avoiding unnecessary renders.
 In Functional based component this can be achieved by memo.
 
+Controlled/UnControlled
+In Controlled component React handles the value using state
+In Uncontrolled component Dom handles the value & react just peak via ref.
+
 How do you improve React app performance?
-I improve React performance by avoiding unnecessary re-renders using React.memo, useCallback, and useMemo, implementing code-splitting with React.lazy, optimizing state management, and handling large lists with pagination or virtualization. I also debounce user inputs and cache API responses.
+I improve React performance by avoiding unnecessary re-renders using React.memo, useCallback, and useMemo, implementing code-splitting ,use React.lazy, optimizing state management, and handling large lists with pagination or virtualization. I also debounce user inputs and cache API responses.
 
 
 What’s the difference in forms handling?
@@ -119,6 +153,10 @@ function Test(){
     </SlowCmp>
     </Counter>
 }
+A better explanation is:
+React has already mounted SlowCmp.
+The children prop points to the same React element object.
+During reconciliation, React sees that children hasn't changed, so it skips rendering SlowCmp.
 
 memo,useMemo,useCallback 
 . memo

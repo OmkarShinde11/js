@@ -1,3 +1,7 @@
+// NOTE
+// The Rule:
+// After every macrotask completes, the JS engine drains the entire microtask queue before picking the next macrotask.
+
 // 1st e.g.
 // console.log('begins');
 // setTimeout(() => {

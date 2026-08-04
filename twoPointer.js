@@ -331,6 +331,32 @@ var removeElementk = function(arr, val) {
 };
 removeElementk([0,1,2,2,3,0,4,2],2);
 
+function removeEleK(nums,val){
+    // let j=0;
+    // for(let i=0;i<arr.length;i++){
+    //     if(arr[i]!==j){
+    //         let temp=arr[i];
+    //         arr[i]=arr[j];
+    //         arr[j]=temp;
+    //     };
+    // };
+    // console.log(j,arr);
+    // return j,arr;
+
+    let sortarr=nums.sort((a,b)=>a-b);
+    let count=0;
+    for(let i=0;i<sortarr.length;i++){
+        if(sortarr[i]!=val){
+            count++;
+        }else{
+            sortarr.splice(i,1);
+            i--;
+        }
+    }
+    return count;
+}
+
+removeEleK([0,1,2,2,3,0,4,2],2)
 
 // IMP
 // 345. Reverse Vowels of a String

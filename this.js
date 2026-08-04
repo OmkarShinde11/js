@@ -129,10 +129,11 @@ const obj_2 = {
     }
   };
  
-console.log(obj_2.getName());
+console.log('Q2',obj_2.getName());
 
 
 // Question No 3 & 4 depends on Call Of Function.
+
 // Q3
 // const obj_3 = {
 //     name: "Omkar",

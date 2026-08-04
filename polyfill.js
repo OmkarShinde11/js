@@ -140,6 +140,15 @@ function ownInterval(delay){
 };
 ownInterval(2000);
 
+// Alternative way
+function call(interval){
+    setTimeout(()=>{
+        console.log('Omkar');
+        call(interval);
+    },interval);
+};
+call(2000);
+
 // Group By Implementation
 let arr=[
     {name:'Omkar',age:24},

@@ -4,12 +4,26 @@ After around 1.5 years, I joined Route Mobile Limited (RML) as a Software Develo
 
 <!-- IMP -->
 Strengths:
-My main strengths are adaptability. I adjust quickly to new technologies and environments, and I focus on finding practical solutions instead of getting stuck on problems. I also communicate clearly with my team, which helps in completing projects or task smoothly.
+My Main Strengths are 
+Strong problem-solving
+Backend API development
+Quick learner
+Good debugging skills
+Team collaboration
+Ownership of tasks
 
 <!-- IMP -->
 Weakness:
-Earlier in my career, I used to feel nervous while speaking in meetings or presenting ideas. I realized communication is just as important as technical skills, so I’ve been working on improving it
-Initially, I preferred handling tasks alone to ensure they’re done correctly, but I realized teamwork delivers better results.I’ve started collaborating more which has improved my productivity
+Earlier, I sometimes focused too much on implementation before discussing different approaches with teammates. I've improved by having design discussions earlier, which helps avoid rework and leads to better solutions.
+
+How do you handle criticism?
+I handle criticism professionally. I listen without interrupting, understand the concern, and focus on finding a solution rather than defending myself. If the feedback is valid, I take action immediately. If I have a different perspective, I explain my reasoning respectfully and remain open to discussion.
+
+Why should we choose you over other candidates?
+I bring hands-on experience with backend technologies that match your engineering stack, including Node.js, RabbitMQ, Redis, databases, and AWS. Beyond coding, I'm actively improving my understanding of scalable architectures and system design, and I'm eager to contribute to challenging backend problems.
+
+Tell me about a mistake you made.
+Early in my career, I deployed a change that affected one API endpoint because I hadn't considered an edge case. So i rolled back the deployment and fix that bug and check it and deployed it again.
 
 Describe a challenge you faced and how you handled it
 In one Task, we had a situation where the backend APIs were delayed but the UI needed to move forward. I created a static data and its structure like JSON and coordinated closely with the backend team, so our frontend progress wasn’t blocked. This helped us meet our timeline and integrate easily once the backend was ready.
@@ -37,6 +51,7 @@ I’m motivated when I see that my work is creating value — whether it’s imp
 How do you prioritize your tasks?
 I usually break tasks into smaller parts and arrange them by urgency and impact. If there’s any confusion, I quickly align with my lead.This helps me deliver the feature on time
 
+<!-- IMP -->
 How do you handle disagreements with team members?
 I believe in discussing the point calmly and understanding the other person’s perspective. Most disagreements get resolved when communication is open. also most of the disagreements happen with QA team,bacause some time they also not know what exactly the feature some time feature is also tricky to test. If needed, I involve a senior to guide the final decision.
 
@@ -74,7 +89,22 @@ also this is depends on task or feature it it's divided with your teammate so it
 How do you ensure good communication at work?
 I make sure to keep my team updated, ask questions early, and clarify requirements before starting work. Clear communication avoids most issues.
 
+Why do you want to leave your current company?
+I've learned a lot in my current role, but I'm looking for an opportunity where I can take on more ownership, work with modern practices like CI/CD and cloud deployment, and grow into a more senior technical role.
+
+Why do you want to join us?
+I looked into your product/tech stack, and it aligns closely with my MERN experience & goals. I'm excited about the opportunity to work with you.
+
+How do you handle pressure/deadlines?
+
 
 “Is there anything about my background or experience you’d like me to clarify?”
 
-“What are the next steps in the interview process?”
+What are the immediate priorities or projects I'd be working on in the first few months?
+What are the next steps in the process, and what's the expected timeline for feedback?
+Is this role fully on-site, hybrid, or remote?
+
+
+"Based on my 4 years of experience and current market standards for MERN stack roles, I'm looking for a CTC in the range of ₹11–13 LPA. I'm flexible depending on the overall role, growth opportunities, and benefits."
+
+you can say: "I understand, but based on my skillset and current market standards, I was hoping to align closer to ₹11-12 LPA. Is there flexibility in the structure (bonus, variable pay) to bridge that?"
